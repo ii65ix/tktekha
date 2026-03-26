@@ -14,17 +14,25 @@
   {% csrf_token %}
   <nav class="navbar navbar-expand-lg arena-navbar sticky-top">
     <div class="container py-2">
-      <a class="navbar-brand brand-glow" href="{% url 'home' %}">{% trans "تكتكها" %}</a>
+      <a class="navbar-brand brand-glow d-flex align-items-center gap-2" href="{% url 'home' %}">
+        <span class="brand-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.5C6.753 2.5 2.5 6.753 2.5 12C2.5 17.247 6.753 21.5 12 21.5C17.247 21.5 21.5 17.247 21.5 12C21.5 6.753 17.247 2.5 12 2.5Z" stroke="currentColor" stroke-width="1.8" opacity="0.95"/>
+            <path d="M10.2 8.6V15.4L16.1 12L10.2 8.6Z" fill="currentColor"/>
+          </svg>
+        </span>
+        <span>{% trans "تكتكها" %}</span>
+      </a>
       <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
         <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
       </button>
       <div class="collapse navbar-collapse" id="navMain">
-        <ul class="navbar-nav ms-lg-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-2">
-          <li class="nav-item"><a class="nav-link text-white-50" href="{% url 'home' %}">{% trans "Home" %}</a></li>
-          <li class="nav-item"><a class="nav-link text-white-50" href="{% url 'categories' %}">{% trans "Categories" %}</a></li>
-          <li class="nav-item"><a class="nav-link text-white-50" href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a></li>
+        <ul class="navbar-nav ms-lg-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-1 nav-arena-links">
+          <li class="nav-item"><a class="nav-link nav-link-arena" href="{% url 'home' %}">{% trans "Home" %}</a></li>
+          <li class="nav-item"><a class="nav-link nav-link-arena" href="{% url 'categories' %}">{% trans "Categories" %}</a></li>
+          <li class="nav-item"><a class="nav-link nav-link-arena" href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a></li>
           {% if user.is_authenticated %}
-            <li class="nav-item"><a class="nav-link text-white-50" href="{% url 'profile' %}">{% trans "Profile" %}</a></li>
+            <li class="nav-item"><a class="nav-link nav-link-arena" href="{% url 'profile' %}">{% trans "Profile" %}</a></li>
             <li class="nav-item">
               <form action="{% url 'logout' %}" method="post" class="d-inline">
                 {% csrf_token %}
@@ -32,20 +40,20 @@
               </form>
             </li>
           {% else %}
-            <li class="nav-item"><a class="nav-link text-white-50" href="{% url 'login' %}">{% trans "Login" %}</a></li>
-            <li class="nav-item"><a class="btn btn-arena-primary btn-sm" href="{% url 'register' %}">{% trans "Register" %}</a></li>
+            <li class="nav-item"><a class="nav-link nav-link-arena" href="{% url 'login' %}">{% trans "Login" %}</a></li>
+            <li class="nav-item"><a class="btn btn-arena-primary btn-sm btn-arena-pill" href="{% url 'register' %}">{% trans "Register" %}</a></li>
           {% endif %}
           <li class="nav-item pt-2 pt-lg-0">
             <div class="d-flex flex-wrap gap-1 align-items-center lang-switcher">
               <form action="{% url 'set_language' %}" method="post" class="d-inline m-0">
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                <button type="submit" name="language" value="en" class="btn btn-sm {% if LANGUAGE_CODE == 'en' %}btn-arena-primary{% else %}btn-arena-outline{% endif %} px-2 py-1">English</button>
+                <button type="submit" name="language" value="en" class="btn btn-sm btn-arena-lang {% if LANGUAGE_CODE == 'en' %}btn-arena-primary{% else %}btn-arena-outline{% endif %}">English</button>
               </form>
               <form action="{% url 'set_language' %}" method="post" class="d-inline m-0">
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                <button type="submit" name="language" value="ar" class="btn btn-sm {% if LANGUAGE_CODE == 'ar' %}btn-arena-primary{% else %}btn-arena-outline{% endif %} px-2 py-1">العربية</button>
+                <button type="submit" name="language" value="ar" class="btn btn-sm btn-arena-lang {% if LANGUAGE_CODE == 'ar' %}btn-arena-primary{% else %}btn-arena-outline{% endif %}">العربية</button>
               </form>
             </div>
           </li>

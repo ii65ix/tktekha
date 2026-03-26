@@ -45,6 +45,51 @@ body.arena-body {
   color: transparent;
 }
 
+.brand-icon {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  color: #dbeafe;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+}
+
+.nav-arena-links .nav-link-arena {
+  color: rgba(248, 250, 252, 0.7) !important;
+  font-weight: 650;
+  padding: 0.55rem 0.85rem;
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+    transform 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.nav-arena-links .nav-link-arena:hover {
+  color: #fff !important;
+  background: rgba(124, 58, 237, 0.16);
+  border-color: rgba(124, 58, 237, 0.35);
+  transform: translateY(-1px);
+}
+
+.nav-arena-links .nav-link-arena.active {
+  color: #fff !important;
+  background: rgba(124, 58, 237, 0.22);
+  border-color: rgba(124, 58, 237, 0.45);
+}
+
+.btn-arena-lang {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.btn-arena-pill {
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
 .arena-card {
   background: var(--arena-glass);
   border: 1px solid var(--arena-border);
