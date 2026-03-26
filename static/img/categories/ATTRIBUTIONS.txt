@@ -1,0 +1,11 @@
+Default category photos (royalty-free, via Pexels — https://www.pexels.com/license/)
+
+- cars.jpg          — Pexels (e.g. automotive / road)
+- sports.jpg        — football stadium
+- general-knowledge.jpg — books
+- geography.jpg     — globe
+- beauty-lifestyle.jpg — cosmetics / makeup (replace with your own meme if you prefer)
+- science.jpg       — lab / science
+- movies.jpg        — popcorn / cinema
+
+Replace any file with your own image; keep the filename matching the category slug.

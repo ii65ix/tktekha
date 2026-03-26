@@ -1,0 +1,460 @@
+"""One-off script: writes quiz/data/seed_data.py with 350 quiz rows."""
+from __future__ import annotations
+
+import textwrap
+from pathlib import Path
+
+
+def row(slug: str, q: str, a: str, b: str, c: str, d: str, correct: int) -> tuple:
+    return (slug, q.strip(), a.strip(), b.strip(), c.strip(), d.strip(), correct)
+
+
+def general():
+    slug = "general-knowledge"
+    out = []
+    data = [
+        ("What is the capital of France?", "Paris", "London", "Berlin", "Madrid", 1),
+        ("Which planet is known as the Red Planet?", "Venus", "Mars", "Jupiter", "Saturn", 2),
+        ("What is the largest ocean on Earth?", "Atlantic", "Indian", "Arctic", "Pacific", 4),
+        ("Who painted the Mona Lisa?", "Van Gogh", "Picasso", "Leonardo da Vinci", "Michelangelo", 3),
+        ("What is the smallest country in the world?", "Monaco", "Vatican City", "Malta", "San Marino", 2),
+        ("Which language has the most native speakers worldwide?", "English", "Spanish", "Mandarin Chinese", "Hindi", 3),
+        ("What is the longest river in the world?", "Amazon", "Nile", "Yangtze", "Mississippi", 2),
+        ("In which year did World War II end?", "1943", "1944", "1945", "1946", 3),
+        ("What is the currency of Japan?", "Yuan", "Won", "Yen", "Ringgit", 3),
+        ("Which desert is the largest in the world?", "Gobi", "Sahara", "Arabian", "Kalahari", 2),
+        ("What is the capital of Australia?", "Sydney", "Melbourne", "Canberra", "Perth", 3),
+        ("How many continents are there?", "5", "6", "7", "8", 3),
+        ("What is the tallest mountain in the world?", "K2", "Mount Everest", "Kilimanjaro", "Denali", 2),
+        ("Which country gifted the Statue of Liberty to the USA?", "Spain", "France", "Italy", "UK", 2),
+        ("What is the largest mammal in the world?", "Elephant", "Blue whale", "Giraffe", "Hippo", 2),
+        ("Which gas do plants absorb from the atmosphere?", "Oxygen", "Nitrogen", "Carbon dioxide", "Hydrogen", 3),
+        ("What is the hardest natural substance on Earth?", "Gold", "Iron", "Diamond", "Quartz", 3),
+        ("Which country has the most population?", "USA", "India", "Indonesia", "China", 4),
+        ("What is the capital of Egypt?", "Alexandria", "Cairo", "Giza", "Luxor", 2),
+        ("Which instrument has keys, pedals, and strings?", "Guitar", "Violin", "Piano", "Flute", 3),
+        ("What is the speed of light approximately?", "300,000 km/s", "150,000 km/s", "1,000 km/s", "30,000 km/s", 1),
+        ("Which organ pumps blood through the body?", "Liver", "Lung", "Heart", "Kidney", 3),
+        ("What is H2O commonly known as?", "Salt", "Oxygen", "Water", "Hydrogen peroxide", 3),
+        ("Which country is famous for the pyramids?", "Greece", "Mexico", "Egypt", "Peru", 3),
+        ("What is the capital of Canada?", "Toronto", "Vancouver", "Ottawa", "Montreal", 3),
+        ("Which ocean is between Africa and Australia?", "Atlantic", "Pacific", "Indian", "Southern", 3),
+        ("What is the largest island in the world?", "Madagascar", "Greenland", "Borneo", "New Guinea", 2),
+        ("Who wrote Romeo and Juliet?", "Charles Dickens", "William Shakespeare", "Jane Austen", "Homer", 2),
+        ("What is the main ingredient in guacamole?", "Tomato", "Avocado", "Pepper", "Onion", 2),
+        ("Which country is shaped like a boot?", "Greece", "Italy", "Portugal", "Croatia", 2),
+        ("What is the largest planet in our solar system?", "Earth", "Saturn", "Jupiter", "Neptune", 3),
+        ("Which metal is liquid at room temperature?", "Iron", "Mercury", "Copper", "Aluminum", 2),
+        ("What is the capital of Brazil?", "Rio de Janeiro", "São Paulo", "Brasília", "Salvador", 3),
+        ("Which war was fought between the North and South in the USA?", "Revolutionary", "Civil", "1812", "Spanish-American", 2),
+        ("What is the largest bone in the human body?", "Skull", "Femur", "Spine", "Tibia", 2),
+        ("Which country is home to the kangaroo?", "New Zealand", "Australia", "South Africa", "Argentina", 2),
+        ("What is the chemical symbol for gold?", "Go", "Gd", "Au", "Ag", 3),
+        ("Which city is known as the Big Apple?", "Los Angeles", "Chicago", "New York City", "Boston", 3),
+        ("What is the largest country by area?", "USA", "China", "Canada", "Russia", 4),
+        ("Which festival is known as the Festival of Lights?", "Christmas", "Diwali", "Hanukkah", "Eid", 3),
+        ("What is the capital of Spain?", "Barcelona", "Seville", "Madrid", "Valencia", 3),
+        ("Which vitamin is produced when skin is exposed to sunlight?", "A", "B12", "C", "D", 4),
+        ("What is the largest living structure on Earth?", "Blue whale", "Great Barrier Reef", "Redwood tree", "Amazon rainforest", 2),
+        ("Which country invented paper?", "Egypt", "India", "China", "Greece", 3),
+        ("What is the capital of Germany?", "Munich", "Frankfurt", "Berlin", "Hamburg", 3),
+        ("Which gas makes up most of Earth's atmosphere?", "Oxygen", "Carbon dioxide", "Nitrogen", "Argon", 3),
+        ("What is the smallest prime number?", "0", "1", "2", "3", 3),
+        ("Which ocean is the smallest?", "Indian", "Arctic", "Southern", "Atlantic", 2),
+        ("What is the capital of South Africa's executive branch?", "Johannesburg", "Cape Town", "Pretoria", "Durban", 3),
+        ("What is the main language spoken in Brazil?", "Spanish", "Portuguese", "French", "English", 2),
+    ]
+    for item in data:
+        out.append(row(slug, *item))
+    return out
+
+
+def sports():
+    slug = "sports"
+    data = [
+        ("How many players are on a soccer team on the field?", "9", "10", "11", "12", 3),
+        ("Which country won the FIFA World Cup in 2018?", "Brazil", "Germany", "France", "Argentina", 3),
+        ("In tennis, what is a score of zero called?", "Nil", "Love", "Zero", "Blank", 2),
+        ("How many minutes is a standard NBA quarter?", "10", "12", "15", "20", 2),
+        ("Which sport uses a shuttlecock?", "Tennis", "Squash", "Badminton", "Table tennis", 3),
+        ("What is the maximum score in ten-pin bowling?", "200", "250", "300", "400", 3),
+        ("Which country hosted the 2016 Summer Olympics?", "UK", "China", "Brazil", "Russia", 3),
+        ("In which sport would you perform a slam dunk?", "Volleyball", "Basketball", "Handball", "Netball", 2),
+        ("How long is a marathon?", "40.195 km", "41.195 km", "42.195 km", "43.195 km", 3),
+        ("Which sport is known as the king of sports?", "Basketball", "Soccer", "Cricket", "Rugby", 2),
+        ("How many holes are played in a standard round of golf?", "9", "12", "18", "21", 3),
+        ("Which trophy is awarded in the NFL championship?", "Stanley Cup", "World Series", "Super Bowl", "NBA Finals", 3),
+        ("In baseball, how many strikes for an out?", "2", "3", "4", "5", 2),
+        ("Which sport features a pommel horse?", "Diving", "Gymnastics", "Fencing", "Wrestling", 2),
+        ("What color card means a player is sent off in soccer?", "Yellow", "Green", "Red", "Blue", 3),
+        ("Which country is Lionel Messi from?", "Spain", "Portugal", "Argentina", "Brazil", 3),
+        ("In volleyball, how many hits per side before it must go over?", "2", "3", "4", "5", 2),
+        ("Which sport uses the terms birdie and eagle?", "Cricket", "Golf", "Tennis", "Baseball", 2),
+        ("How many players in a rugby union team on the field?", "13", "14", "15", "16", 3),
+        ("What is the national sport of Canada?", "Soccer", "Lacrosse", "Ice hockey", "Curling", 3),
+        ("Which Grand Slam is played on clay courts?", "Wimbledon", "US Open", "Australian Open", "French Open", 4),
+        ("In which sport would you use a foil?", "Archery", "Fencing", "Skiing", "Sailing", 2),
+        ("How many periods are in an ice hockey game?", "2", "3", "4", "5", 2),
+        ("Which country has won the most Olympic gold medals overall (summer)?", "China", "Russia", "UK", "USA", 4),
+        ("What is the diameter of a basketball hoop in inches?", "16", "17", "18", "19", 3),
+        ("Which sport is associated with Tour de France?", "Running", "Swimming", "Cycling", "Skiing", 3),
+        ("In cricket, how many runs for a boundary that clears the rope?", "2", "4", "6", "8", 3),
+        ("Which sport uses a mallet and horses?", "Polo", "Croquet", "Lacrosse", "Bandy", 1),
+        ("How many bases are on a baseball diamond?", "3", "4", "5", "6", 2),
+        ("Which sport is played at Wimbledon?", "Cricket", "Tennis", "Rugby", "Golf", 2),
+        ("What is the length of an Olympic swimming pool in meters?", "25", "50", "100", "75", 2),
+        ("Which sport features a scrum?", "American football", "Rugby", "Water polo", "Handball", 2),
+        ("Who is known as The Greatest in boxing?", "Mike Tyson", "Muhammad Ali", "Floyd Mayweather", "George Foreman", 2),
+        ("In soccer, what is it called when a player scores three goals?", "Hat trick", "Triple", "Treble", "Trifecta", 1),
+        ("Which sport uses a puck?", "Field hockey", "Ice hockey", "Lacrosse", "Polo", 2),
+        ("How many players start on a baseball team?", "8", "9", "10", "11", 2),
+        ("Which sport is associated with Augusta National?", "Tennis", "Golf", "Baseball", "Cricket", 2),
+        ("In which sport would you find a try?", "Soccer", "Rugby", "Basketball", "Hockey", 2),
+        ("What is the official name of soccer in most of the world?", "Football", "Kickball", "Rugby", "Futsal", 1),
+        ("Which sport has positions called setter and libero?", "Basketball", "Volleyball", "Handball", "Water polo", 2),
+        ("How many points is a touchdown worth in American football (before extra point)?", "5", "6", "7", "8", 2),
+        ("Which sport uses a crease and wicket?", "Baseball", "Cricket", "Softball", "Rounders", 2),
+        ("What is the maximum break in snooker?", "140", "145", "147", "150", 3),
+        ("Which sport is played on a sheet with stones and brooms?", "Hockey", "Curling", "Bobsled", "Luge", 2),
+        ("In Formula 1, what color flag means the race is finished?", "Red", "Yellow", "Green", "Checkered", 4),
+        ("Which country won the first FIFA World Cup in 1930?", "Brazil", "Italy", "Uruguay", "Argentina", 3),
+        ("What is the height of a tennis net at the center (feet)?", "2", "3", "4", "5", 2),
+        ("Which sport uses terms like spare and split?", "Bowling", "Darts", "Billiards", "Archery", 1),
+        ("How many players are on a beach volleyball team per side?", "1", "2", "3", "4", 2),
+        ("Which sport is known as America's pastime?", "Basketball", "Baseball", "Football", "Hockey", 2),
+    ]
+    return [row(slug, *item) for item in data]
+
+
+def movies():
+    slug = "movies"
+    data = [
+        ("Who directed the movie Inception?", "Steven Spielberg", "Christopher Nolan", "James Cameron", "Ridley Scott", 2),
+        ("Which movie features the line I'll be back?", "RoboCop", "Terminator", "Predator", "Total Recall", 2),
+        ("What is the name of the lion in The Lion King?", "Simba", "Mufasa", "Scar", "Timon", 1),
+        ("Which film won Best Picture at the 2020 Oscars?", "1917", "Joker", "Parasite", "Ford v Ferrari", 3),
+        ("Who played Jack in Titanic?", "Brad Pitt", "Leonardo DiCaprio", "Tom Cruise", "Johnny Depp", 2),
+        ("Which movie is set in the Marvel Cinematic Universe first phase?", "Iron Man", "Thor", "Captain America", "The Avengers", 1),
+        ("What is the highest-grossing film of all time (unadjusted)?", "Titanic", "Avatar", "Avengers: Endgame", "Star Wars: The Force Awakens", 2),
+        ("Who played the Joker in The Dark Knight?", "Jared Leto", "Jack Nicholson", "Heath Ledger", "Joaquin Phoenix", 3),
+        ("Which animated film features Let It Go?", "Tangled", "Frozen", "Moana", "Encanto", 2),
+        ("What is the name of the hobbit played by Elijah Wood?", "Bilbo", "Frodo", "Sam", "Pippin", 2),
+        ("Which movie features a DeLorean time machine?", "Back to the Future", "Blade Runner", "Tron", "Mad Max", 1),
+        ("Who directed Jurassic Park?", "George Lucas", "Steven Spielberg", "Peter Jackson", "Tim Burton", 2),
+        ("Which film features a giant shark named Bruce?", "Deep Blue Sea", "Jaws", "Meg", "Open Water", 2),
+        ("What is the first Star Wars movie released (1977)?", "Empire Strikes Back", "A New Hope", "Return of the Jedi", "Phantom Menace", 2),
+        ("Who played Wonder Woman in the DC films?", "Scarlett Johansson", "Gal Gadot", "Jennifer Lawrence", "Brie Larson", 2),
+        ("Which Pixar movie is about emotions inside a girl's mind?", "Soul", "Inside Out", "Coco", "Up", 2),
+        ("What is the name of the kingdom in Frozen?", "Arendelle", "Corona", "DunBroch", "Atlantica", 1),
+        ("Who played Jack Sparrow in Pirates of the Caribbean?", "Orlando Bloom", "Johnny Depp", "Geoffrey Rush", "Javier Bardem", 2),
+        ("Which horror movie features a villain named Michael Myers?", "Friday the 13th", "Halloween", "Scream", "A Nightmare on Elm Street", 2),
+        ("What is the subtitle of the second Harry Potter film?", "Goblet of Fire", "Chamber of Secrets", "Prisoner of Azkaban", "Order of the Phoenix", 2),
+        ("Which film won the first Academy Award for Best Animated Feature?", "Toy Story", "Finding Nemo", "Monsters, Inc.", "Shrek", 4),
+        ("Who played Tony Stark / Iron Man?", "Chris Evans", "Chris Hemsworth", "Robert Downey Jr.", "Mark Ruffalo", 3),
+        ("Which film is about a dream within a dream?", "The Matrix", "Inception", "Interstellar", "The Prestige", 2),
+        ("What is the name of the computer in 2001: A Space Odyssey?", "WALL-E", "HAL 9000", "JARVIS", "Skynet", 2),
+        ("Which movie features the quote May the Force be with you?", "Star Trek", "Star Wars", "Guardians of the Galaxy", "Dune", 2),
+        ("Who directed The Godfather?", "Martin Scorsese", "Francis Ford Coppola", "Brian De Palma", "Sydney Pollack", 2),
+        ("Which animated movie features a panda named Po?", "Rio", "Kung Fu Panda", "Madagascar", "How to Train Your Dragon", 2),
+        ("What is the clown's name in IT?", "Pennywise", "Chucky", "Freddy", "Jason", 1),
+        ("Which film features a boy who never grows up?", "Hook", "Peter Pan", "Pan", "Tinker Bell", 2),
+        ("Who played Neo in The Matrix?", "Keanu Reeves", "Will Smith", "Tom Cruise", "Brad Pitt", 1),
+        ("Which movie is about a theme park with dinosaurs?", "King Kong", "Jurassic Park", "Godzilla", "Pacific Rim", 2),
+        ("What is the name of the ring in Lord of the Rings?", "Ring of Power", "One Ring", "Ring of Fire", "Elder Ring", 2),
+        ("Which Disney princess has a father who is a chef?", "Belle", "Tiana", "Rapunzel", "Moana", 2),
+        ("Who played Forrest Gump?", "Tom Hanks", "Tom Cruise", "Robin Williams", "Kevin Costner", 1),
+        ("Which movie features the song My Heart Will Go On?", "The Notebook", "Titanic", "A Star Is Born", "Moulin Rouge", 2),
+        ("What is the villain's name in The Little Mermaid?", "Maleficent", "Ursula", "Cruella", "Gothel", 2),
+        ("Which film is about toys that come to life?", "Shrek", "Toy Story", "Monsters, Inc.", "Cars", 2),
+        ("Who directed Avatar?", "Peter Jackson", "James Cameron", "George Lucas", "Ridley Scott", 2),
+        ("Which superhero is from Wakanda?", "Iron Man", "Black Panther", "Spider-Man", "Doctor Strange", 2),
+        ("What is the name of the snowman in Frozen?", "Sven", "Olaf", "Kristoff", "Hans", 2),
+        ("Which movie features a clockwork orange?", "Blade Runner", "A Clockwork Orange", "Metropolis", "Brazil", 2),
+        ("Who played the Grinch (2000 film)?", "Mike Myers", "Jim Carrey", "Robin Williams", "Will Ferrell", 2),
+        ("Which film is about a rat who cooks?", "Ratatouille", "Flushed Away", "Chicken Run", "Over the Hedge", 1),
+        ("What is the highest mountain in Avatar called?", "Everest", "Olympus", "Hallelujah", "Unobtanium Peak", 3),
+        ("Which series features Hogwarts School?", "Percy Jackson", "Harry Potter", "Lord of the Rings", "Narnia", 2),
+        ("Who played Jack in The Shining?", "Jack Nicholson", "Al Pacino", "Robert De Niro", "Dustin Hoffman", 1),
+        ("Which movie has a spinning top ending debate?", "Shutter Island", "Inception", "Memento", "The Prestige", 2),
+        ("What is the name of the killer doll in Child's Play?", "Annabelle", "Chucky", "Billy", "Jigsaw", 2),
+        ("Which film features the quote Here's looking at you, kid?", "Gone with the Wind", "Casablanca", "Citizen Kane", "The Maltese Falcon", 2),
+        ("Who played Black Widow in the MCU?", "Scarlett Johansson", "Elizabeth Olsen", "Brie Larson", "Zoe Saldana", 1),
+    ]
+    return [row(slug, *item) for item in data]
+
+
+def science():
+    slug = "science"
+    data = [
+        ("What is the chemical symbol for water?", "O2", "CO2", "H2O", "NaCl", 3),
+        ("What planet is closest to the Sun?", "Venus", "Mercury", "Earth", "Mars", 2),
+        ("What force keeps us on the ground?", "Magnetism", "Friction", "Gravity", "Inertia", 3),
+        ("What is the center of an atom called?", "Electron", "Neutron", "Nucleus", "Proton", 3),
+        ("How many bones are in the adult human body?", "180", "206", "220", "250", 2),
+        ("What gas do humans breathe in?", "Carbon dioxide", "Nitrogen", "Oxygen", "Helium", 3),
+        ("What is the largest organ in the human body?", "Liver", "Brain", "Skin", "Heart", 3),
+        ("What is the speed of sound in air approximately?", "120 m/s", "240 m/s", "343 m/s", "500 m/s", 3),
+        ("What is the powerhouse of the cell?", "Nucleus", "Ribosome", "Mitochondria", "Golgi body", 3),
+        ("What is the most abundant gas in Earth's atmosphere?", "Oxygen", "Carbon dioxide", "Nitrogen", "Argon", 3),
+        ("What is the boiling point of water at sea level (°C)?", "90", "95", "100", "105", 3),
+        ("Which blood type is known as the universal donor?", "A", "B", "AB", "O negative", 4),
+        ("What is the smallest unit of life?", "Tissue", "Cell", "Organ", "Atom", 2),
+        ("What planet has the Great Red Spot?", "Mars", "Saturn", "Jupiter", "Neptune", 3),
+        ("What is the study of fossils called?", "Geology", "Paleontology", "Biology", "Archaeology", 2),
+        ("What is the hardest part of the human body?", "Bone", "Tooth enamel", "Skull", "Femur", 2),
+        ("What is the nearest star to Earth?", "Proxima Centauri", "Sirius", "The Sun", "Alpha Centauri", 3),
+        ("What is DNA short for?", "Diacid nucleic acid", "Deoxyribonucleic acid", "Dynamic nucleic acid", "Dual nucleic acid", 2),
+        ("What is the pH of pure water?", "5", "6", "7", "8", 3),
+        ("Which scientist proposed the theory of relativity?", "Newton", "Einstein", "Galileo", "Hawking", 2),
+        ("What is the largest planet in our solar system?", "Saturn", "Jupiter", "Neptune", "Uranus", 2),
+        ("What part of the plant conducts photosynthesis?", "Roots", "Stem", "Leaves", "Flowers", 3),
+        ("What is the freezing point of water (°C)?", "-1", "0", "1", "32", 2),
+        ("What is the main gas in the Sun?", "Oxygen", "Helium", "Hydrogen", "Carbon", 3),
+        ("What is the human body's normal temperature (°C)?", "35", "36", "37", "38", 3),
+        ("What is the smallest planet in our solar system?", "Mars", "Venus", "Mercury", "Pluto", 3),
+        ("What is the study of weather called?", "Astronomy", "Meteorology", "Geology", "Ecology", 2),
+        ("What is the largest moon of Saturn?", "Europa", "Titan", "Ganymede", "Callisto", 2),
+        ("What is the basic unit of heredity?", "Cell", "Gene", "Protein", "Chromosome", 2),
+        ("What device measures earthquakes?", "Barometer", "Seismograph", "Anemometer", "Spectrometer", 2),
+        ("What is the chemical symbol for sodium?", "So", "S", "Na", "Sd", 3),
+        ("What is the process by which plants make food?", "Respiration", "Photosynthesis", "Digestion", "Fermentation", 2),
+        ("What is the largest desert in the world?", "Gobi", "Sahara", "Arabian", "Antarctic", 4),
+        ("What is the main component of natural gas?", "Oxygen", "Carbon monoxide", "Methane", "Propane", 3),
+        ("What is the study of stars and space called?", "Geology", "Astronomy", "Biology", "Meteorology", 2),
+        ("What is the densest planet in our solar system?", "Jupiter", "Saturn", "Earth", "Mercury", 3),
+        ("What is the outermost layer of Earth?", "Mantle", "Core", "Crust", "Lithosphere", 3),
+        ("What is the chemical symbol for iron?", "Ir", "Fe", "In", "F", 2),
+        ("What is the largest type of blood vessel?", "Capillary", "Vein", "Artery", "Vena cava", 3),
+        ("What is the human body's largest muscle?", "Biceps", "Gluteus maximus", "Quadriceps", "Heart", 2),
+        ("What is the term for animals that eat only plants?", "Carnivores", "Omnivores", "Herbivores", "Scavengers", 3),
+        ("What is the center of a hurricane called?", "Wall", "Core", "Eye", "Vortex", 3),
+        ("What is the chemical symbol for silver?", "Si", "Sv", "Ag", "Au", 3),
+        ("What is the study of living organisms?", "Physics", "Chemistry", "Biology", "Geology", 3),
+        ("What is the main gas humans exhale?", "Oxygen", "Nitrogen", "Carbon dioxide", "Hydrogen", 3),
+        ("What is the largest internal organ in the human body?", "Brain", "Liver", "Lung", "Stomach", 2),
+        ("What is the term for water changing to vapor?", "Condensation", "Evaporation", "Sublimation", "Freezing", 2),
+        ("What is the chemical symbol for potassium?", "P", "Po", "K", "Pt", 3),
+        ("What is the hottest planet in the solar system?", "Mercury", "Venus", "Mars", "Jupiter", 2),
+        ("What is the name of the galaxy we live in?", "Andromeda", "Milky Way", "Triangulum", "Sombrero", 2),
+    ]
+    return [row(slug, *item) for item in data]
+
+
+def intelligence():
+    slug = "intelligence"
+    data = [
+        ("If all Bloops are Razzies and all Razzies are Lazzies, are all Bloops Lazzies?", "No", "Yes", "Cannot tell", "Only some", 2),
+        ("What is the next number: 2, 4, 8, 16, ?", "24", "32", "30", "20", 2),
+        ("If you have 3 apples and take away 2, how many do you have?", "1", "2", "3", "0", 2),
+        ("Which is heavier: a kilogram of feathers or a kilogram of bricks?", "Feathers", "Bricks", "Same", "Depends", 3),
+        ("A farmer has 17 sheep; all but 9 die. How many are left?", "8", "9", "17", "0", 2),
+        ("What comes next: O, T, T, F, F, S, S, ?", "E", "N", "T", "H", 1),
+        ("If 5 machines make 5 widgets in 5 minutes, how long for 100 machines to make 100 widgets?", "5 minutes", "100 minutes", "20 minutes", "1 minute", 1),
+        ("I am my father's son but not a son. Who am I?", "Brother", "Daughter", "Father", "Mother", 2),
+        ("How many squares on a standard chessboard?", "64", "128", "204", "32", 3),
+        ("If you divide 30 by half and add 10, what do you get?", "25", "70", "40", "35", 2),
+        ("What is 15% of 200?", "20", "25", "30", "35", 3),
+        ("If today is Wednesday, what day in 10 days?", "Friday", "Saturday", "Sunday", "Monday", 2),
+        ("A clock shows 3:15. What is the angle between the hands?", "0°", "7.5°", "90°", "45°", 2),
+        ("If you rearrange the letters LISTEN, you get a word meaning quiet or still?", "Noise", "Music", "Silent", "Listen", 3),
+        ("What is the missing number: 1, 1, 2, 3, 5, 8, ?", "11", "12", "13", "10", 3),
+        ("If you flip a fair coin twice, probability of two heads?", "1/2", "1/3", "1/4", "1/8", 3),
+        ("Which number does not belong: 2, 3, 5, 7, 8, 11?", "2", "5", "8", "11", 3),
+        ("If 3 cats catch 3 mice in 3 minutes, how many cats to catch 100 mice in 100 minutes?", "3", "100", "33", "1", 1),
+        ("What is half of two plus two?", "2", "3", "4", "1", 2),
+        ("If you are running a race and pass the person in second place, what place are you in?", "First", "Second", "Third", "Same", 2),
+        ("How many months have 28 days?", "1", "6", "12", "11", 3),
+        ("What is the next letter: J, F, M, A, M, J, J, ?", "A", "S", "O", "N", 1),
+        ("If 1=5, 2=25, 3=325, 4=4325, then 5=?", "54325", "1", "5325", "5", 2),
+        ("A bat and a ball cost $1.10 total. The bat is $1 more than the ball. Ball price?", "$0.05", "$0.10", "$0.15", "$0.20", 1),
+        ("How many triangles can you make from 6 points on a circle?", "10", "15", "20", "12", 3),
+        ("If you double a number and add 5, you get 21. What is the number?", "6", "7", "8", "9", 3),
+        ("Which word does not belong: apple, banana, carrot, grape?", "Apple", "Banana", "Carrot", "Grape", 3),
+        ("If all roses are flowers and some flowers fade quickly, can we conclude all roses fade quickly?", "Yes", "No", "Sometimes", "Always", 2),
+        ("What is 9 ÷ 3 × (2 + 1)?", "3", "6", "9", "1", 3),
+        ("If a shirt costs $20 after a 20% discount, what was original price?", "$24", "$25", "$28", "$30", 2),
+        ("How many ways can you arrange the letters in CAT?", "3", "6", "9", "12", 2),
+        ("If 4 pencils cost $2, how much do 10 pencils cost?", "$4", "$5", "$6", "$8", 2),
+        ("What is the smallest positive integer divisible by both 6 and 8?", "12", "24", "48", "18", 2),
+        ("If you fold a paper in half 3 times, how many layers?", "6", "8", "9", "12", 2),
+        ("Which is larger: 1/3 or 0.33?", "1/3", "0.33", "Equal", "Cannot compare", 1),
+        ("If 2 is company and 3 is a crowd, what are 4 and 5?", "Nine", "People", "Party", "Many", 1),
+        ("What is the sum of the first 10 positive integers?", "45", "50", "55", "100", 3),
+        ("If a train leaves at noon and arrives at 3 PM, duration?", "2 hours", "3 hours", "4 hours", "180 minutes", 2),
+        ("How many diagonals does a hexagon have?", "6", "9", "12", "15", 2),
+        ("If you pick a random day, probability it starts with T?", "1/7", "2/7", "3/7", "4/7", 2),
+        ("What is the cube root of 27?", "2", "3", "4", "9", 2),
+        ("If 5 workers finish a job in 5 days, how long for 1 worker?", "5 days", "25 days", "1 day", "10 days", 2),
+        ("Which number is both square and cube of an integer under 100?", "16", "36", "64", "81", 3),
+        ("If you add the sides of a triangle, can any side be longer than the sum of the other two?", "Yes", "No", "Sometimes", "Only right triangles", 2),
+        ("What is the perimeter of a square with area 49?", "7", "14", "28", "49", 3),
+        ("If you have a 3-liter and 5-liter jug, can you measure exactly 4 liters?", "No", "Yes", "Only with another jug", "Impossible", 2),
+        ("What is next: 1, 4, 9, 16, ?", "20", "24", "25", "30", 3),
+        ("If you reverse the digits of a two-digit number and the difference is 36, digits could be?", "15 and 51", "26 and 62", "Both", "Neither", 3),
+        ("How many zeros at the end of 10! (factorial)?", "1", "2", "3", "4", 2),
+        ("If you choose an answer at random to this question with options A 25% B 50% C 25% D 0%, what is correct?", "25%", "50%", "0%", "Paradox", 4),
+    ]
+    return [row(slug, *item) for item in data]
+
+
+def entertainment():
+    slug = "entertainment"
+    data = [
+        ("What do you call a group of fish?", "Herd", "School", "Pack", "Flock", 2),
+        ("Which animal is known as man's best friend?", "Cat", "Dog", "Horse", "Rabbit", 2),
+        ("What is the main ingredient in hummus?", "Lentils", "Chickpeas", "Beans", "Peas", 2),
+        ("What is the largest land animal?", "Rhino", "Elephant", "Hippo", "Giraffe", 2),
+        ("Which fruit is known as the king of fruits?", "Apple", "Mango", "Banana", "Grape", 2),
+        ("What is the opposite of hot?", "Warm", "Cold", "Cool", "Freezing", 2),
+        ("How many legs does a spider have?", "6", "8", "10", "12", 2),
+        ("What do bees make?", "Jam", "Honey", "Butter", "Syrup", 2),
+        ("Which planet is known for its rings?", "Mars", "Saturn", "Venus", "Mercury", 2),
+        ("What is the color of an emerald?", "Blue", "Red", "Green", "Yellow", 3),
+        ("What is the fastest land animal?", "Lion", "Cheetah", "Leopard", "Tiger", 2),
+        ("What do you call frozen water?", "Steam", "Ice", "Snow", "Hail", 2),
+        ("Which bird is known for mimicking sounds?", "Eagle", "Parrot", "Owl", "Penguin", 2),
+        ("What is the tallest animal?", "Elephant", "Giraffe", "Camel", "Ostrich", 2),
+        ("What is the main language spoken in the USA?", "Spanish", "English", "French", "German", 2),
+        ("What is 7 × 8?", "54", "56", "64", "48", 2),
+        ("Which season comes after winter?", "Summer", "Spring", "Autumn", "Fall", 2),
+        ("What is the capital city of the United Kingdom?", "Manchester", "London", "Liverpool", "Oxford", 2),
+        ("What do you use to write on a blackboard?", "Pen", "Marker", "Chalk", "Pencil", 3),
+        ("Which ocean is the largest?", "Atlantic", "Indian", "Arctic", "Pacific", 4),
+        ("What is the name of the fairy in Peter Pan?", "Tinker Bell", "Blue Fairy", "Fairy Godmother", "Tooth Fairy", 1),
+        ("What is the main ingredient in bread?", "Sugar", "Salt", "Flour", "Butter", 3),
+        ("Which day comes after Monday?", "Sunday", "Wednesday", "Tuesday", "Friday", 3),
+        ("What is the shape of a stop sign?", "Circle", "Triangle", "Octagon", "Square", 3),
+        ("What is the opposite of night?", "Evening", "Dawn", "Day", "Noon", 3),
+        ("Which animal gives us milk?", "Chicken", "Cow", "Sheep", "Pig", 2),
+        ("What is the largest fish?", "Shark", "Whale shark", "Dolphin", "Tuna", 2),
+        ("What is the color of a banana when ripe?", "Green", "Yellow", "Brown", "Red", 2),
+        ("How many days are in a leap year?", "364", "365", "366", "367", 3),
+        ("What is the first month of the year?", "February", "January", "March", "December", 2),
+        ("Which sense organ helps you hear?", "Nose", "Ear", "Eye", "Tongue", 2),
+        ("What is the sweet food made by bees?", "Sugar", "Honey", "Maple", "Molasses", 2),
+        ("What do you call a baby dog?", "Cub", "Calf", "Puppy", "Kitten", 3),
+        ("Which is a vegetable?", "Apple", "Carrot", "Orange", "Banana", 2),
+        ("What is the opposite of big?", "Tiny", "Small", "Little", "Mini", 2),
+        ("What is the main gas we breathe out?", "Oxygen", "Nitrogen", "Carbon dioxide", "Helium", 3),
+        ("Which insect makes a cocoon?", "Bee", "Butterfly", "Ant", "Fly", 2),
+        ("What is the center of an egg called?", "Shell", "White", "Yolk", "Membrane", 3),
+        ("What is the hardest natural material?", "Steel", "Iron", "Diamond", "Gold", 3),
+        ("Which sport uses a net and a shuttlecock?", "Tennis", "Badminton", "Volleyball", "Soccer", 2),
+        ("What is the opposite of fast?", "Quick", "Slow", "Rapid", "Swift", 2),
+        ("How many hours in a day?", "12", "24", "48", "20", 2),
+        ("What is the color of snow?", "Blue", "White", "Gray", "Clear", 2),
+        ("Which planet is known as the Blue Planet?", "Mars", "Earth", "Neptune", "Uranus", 2),
+        ("What do cats love to drink?", "Juice", "Milk", "Coffee", "Soda", 2),
+        ("What is the largest bird?", "Eagle", "Ostrich", "Emu", "Albatross", 2),
+        ("What is the main ingredient in pizza dough?", "Sugar", "Flour", "Rice", "Corn", 2),
+        ("Which sense helps you smell?", "Taste", "Touch", "Smell", "Sight", 3),
+        ("What is the opposite of young?", "Teen", "Old", "Adult", "Kid", 2),
+        ("What is the name of Mickey Mouse's dog?", "Goofy", "Pluto", "Donald", "Pete", 2),
+    ]
+    return [row(slug, *item) for item in data]
+
+
+def beauty():
+    slug = "beauty-lifestyle"
+    data = [
+        ("What should you apply before sunscreen in the morning?", "Moisturizer", "Makeup", "Perfume", "Toner", 1),
+        ("How often should you replace mascara for hygiene?", "Every month", "Every 3–6 months", "Every year", "Never", 2),
+        ("What is the last step in a basic skincare routine at night?", "Cleanser", "Sunscreen", "Moisturizer", "Serum", 3),
+        ("What does SPF primarily protect against?", "Dryness", "UV rays", "Acne", "Wrinkles only", 2),
+        ("What is a common ingredient for gentle exfoliation?", "Bleach", "Salicylic acid", "Rubbing alcohol", "Vinegar", 2),
+        ("What helps keep lips soft in winter?", "Matte lipstick only", "Lip balm", "Lip liner only", "Gloss only", 2),
+        ("What is a healthy daily water intake guideline for many adults?", "About 2 liters", "500 ml", "5 liters", "100 ml", 1),
+        ("What should you do before applying makeup?", "Sleep", "Cleanse and moisturize", "Tan", "Steam face for hours", 2),
+        ("What is a 'cat eye' in makeup?", "Blush style", "Eyeliner wing shape", "Lip contour", "Brow fade", 2),
+        ("Which product sets makeup and reduces shine?", "Primer", "Setting powder", "Cleanser", "Toner", 2),
+        ("What is double cleansing?", "Washing twice with soap only", "Oil/balm then water-based cleanser", "Using two towels", "Shower twice", 2),
+        ("What is a common nighttime skincare goal?", "Sun protection", "Repair and hydration", "Heavy tanning", "Exfoliate 5 times", 2),
+        ("What does non-comedogenic mean?", "Very fragrant", "Won't clog pores", "Waterproof", "Matte only", 2),
+        ("What is a healthy sleep duration for most adults?", "3–4 hours", "7–9 hours", "12 hours", "2 hours", 2),
+        ("What is cuticle care important for?", "Hair volume", "Nail health", "Teeth whitening", "Eyebrow growth", 2),
+        ("What is a serum typically used for?", "Removing makeup", "Targeted treatment", "Sun protection only", "Cleansing", 2),
+        ("What should you patch test?", "New products", "Only soap", "Only water", "Nothing", 1),
+        ("What is the benefit of sunscreen even indoors near windows?", "No benefit", "Helps protect from some UV", "Replaces sleep", "Stops aging fully", 2),
+        ("What is micellar water used for?", "Cooking", "Gentle makeup removal/cleansing", "Hair dye", "Nail polish", 2),
+        ("What is a healthy breakfast habit?", "Skip always", "Balanced meal", "Only sugar", "Only coffee", 2),
+        ("What does toner often help with?", "Priming skin after cleansing", "Cooking", "Hair color", "Nail art", 1),
+        ("What is a common sign you need more hydration?", "Oily skin can still be dehydrated", "Only dry skin needs water", "Acne never needs moisture", "SPF replaces water", 1),
+        ("What is contouring?", "Lip care", "Shading to sculpt face features", "Hair cutting", "Nail filing", 2),
+        ("What is a silk pillowcase sometimes credited with?", "Faster hair breakage", "Less friction on hair/skin", "Stronger nails instantly", "SPF boost", 2),
+        ("What is a lip scrub used for?", "Eye liner", "Removing dead skin on lips", "Foundation", "Brows", 2),
+        ("What is the purpose of primer?", "Remove SPF", "Prep skin for makeup longevity", "Replace cleanser", "Tanning", 2),
+        ("What is a healthy approach to fragrance?", "Bathe in perfume", "Apply to pulse points sparingly", "Spray in eyes", "Only indoors", 2),
+        ("What is eyebrow gel for?", "Lip shine", "Setting brow hairs", "Cleansing", "Sunscreen", 2),
+        ("What is a weekly habit for many for scalp health?", "Never wash", "Clarifying or gentle wash routine", "Bleach daily", "Hot oil every hour", 2),
+        ("What is a facial mask often used for?", "Cooking", "Targeted skin treatment", "Hair dye", "Teeth", 2),
+        ("What is a minimalist skincare routine?", "10 serums always", "Basic cleanse-moisturize-SPF", "No water", "Only makeup wipes forever", 2),
+        ("What is highlighter used for?", "Matte lips", "Reflective glow on high points", "Concealing only", "Removing SPF", 2),
+        ("What is a healthy posture tip for desk work?", "Slouch all day", "Screen at eye level, breaks", "Never move", "Chair too low", 2),
+        ("What is a common evening wind-down habit?", "Blue light until 3 AM", "Dim lights, routine", "Energy drinks", "Skipping sleep", 2),
+        ("What does BB cream often combine?", "Soap and oil", "Moisture, coverage, SPF sometimes", "Only eyeliner", "Hair dye", 2),
+        ("What is cuticle oil for?", "Lip plumping", "Nail and skin around nails", "Teeth", "Ears", 2),
+        ("What is a healthy snack idea?", "Only candy", "Nuts and fruit", "Skip meals", "Soda only", 2),
+        ("What is exfoliation frequency for many skin types?", "Every hour", "1–3 times a week depending on product", "Never", "Daily harsh scrub always", 2),
+        ("What is setting spray for?", "Cooking", "Helping makeup last", "Cleansing", "Hair spray only", 2),
+        ("What is a common benefit of walking daily?", "Nothing", "Cardio and mood boost", "Replaces water", "Stops all illness", 2),
+        ("What is concealer used for?", "Whole face foundation only", "Covering blemishes/dark circles", "Lip liner", "Brows only", 2),
+        ("What is a healthy limit for hot showers?", "Very long and scalding", "Short and lukewarm is gentler on skin", "Never shower", "Only cold ice baths", 2),
+        ("What is lip liner used for?", "Eyeshadow", "Defining lips", "Cleanser", "Sunscreen", 2),
+        ("What is a journal habit credited with?", "Nothing", "Stress clarity and gratitude", "Replacing meals", "Deleting sleep", 2),
+        ("What is a diffuser used for in beauty context?", "Cooking rice", "Dispersing skincare or scent", "Hair bleach", "Teeth", 2),
+        ("What is a healthy screen-time tip before bed?", "Max brightness", "Reduce screens for better sleep", "More caffeine", "Loud alarms only", 2),
+        ("What is blush applied to?", "Forehead only", "Cheeks", "Chin only", "Ears only", 2),
+        ("What is a common morning stretch benefit?", "Nothing", "Flexibility and wake-up", "Replaces water", "Adds SPF", 2),
+        ("What is hand cream for?", "Scalp only", "Hydrating hands", "Teeth whitening", "Eyeliner", 2),
+        ("What is a signature scent strategy?", "Wear every perfume at once", "One or two favorites", "Spray clothes only wet", "Avoid hygiene", 2),
+    ]
+    return [row(slug, *item) for item in data]
+
+
+def main():
+    rows = []
+    rows.extend(general())
+    rows.extend(sports())
+    rows.extend(movies())
+    rows.extend(science())
+    rows.extend(intelligence())
+    rows.extend(entertainment())
+    rows.extend(beauty())
+    assert len(rows) == 350, len(rows)
+
+    lines = [
+        '"""Auto-generated seed rows — 350 questions (7×50). Do not edit by hand; regenerate via scripts/generate_question_seed.py"""',
+        "",
+        "SEED_ROWS = [",
+    ]
+    for r in rows:
+        slug, q, a, b, c, d, cor = r
+        lines.append(
+            "    ("
+            + repr(slug)
+            + ", "
+            + repr(q)
+            + ", "
+            + repr(a)
+            + ", "
+            + repr(b)
+            + ", "
+            + repr(c)
+            + ", "
+            + repr(d)
+            + ", "
+            + str(cor)
+            + "),"
+        )
+    lines.append("]")
+    lines.append("")
+
+    out = Path(__file__).resolve().parent.parent / "quiz" / "data" / "seed_data.py"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    text = "\n".join(lines)
+    out.write_text(textwrap.dedent(text), encoding="utf-8")
+    print("Wrote", out, "rows", len(rows))
+
+
+if __name__ == "__main__":
+    main()

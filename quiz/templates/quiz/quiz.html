@@ -1,0 +1,74 @@
+{% extends "quiz/base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Quiz" %} — {{ category.display_name }} — {% trans "تكتكها" %}{% endblock %}
+
+{% block content %}
+<section class="py-4 py-md-5">
+  <div class="container" style="max-width: 720px;">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-3">
+        <img
+          class="category-thumb-quiz"
+          src="{% static category.category_image_relpath %}"
+          alt=""
+          width="56"
+          height="56"
+          loading="lazy"
+          decoding="async"
+        />
+        <div>
+          <span class="small text-secondary">{{ category.display_name }}</span>
+          <div class="fw-bold">{% trans "Question" %} {{ question_num }} / {{ total_questions }}</div>
+        </div>
+      </div>
+      <div class="text-end">
+        <div class="small text-secondary">{% trans "Elapsed (seconds)" %}</div>
+        <div class="timer-ring" id="timer-display">0</div>
+      </div>
+    </div>
+    <div class="progress progress-arena mb-2">
+      <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <p class="small text-secondary mb-4">{% trans "Quiz progress" %}</p>
+
+    <div
+      id="quiz-root"
+      class="arena-card p-4 p-md-5 fade-in-up"
+      data-play-url="{% url 'quiz_play' %}"
+      data-result-url="{% url 'quiz_result' %}"
+    >
+      <h2 class="h5 mb-4 lh-base">{{ question.text_localized }}</h2>
+      <div class="d-grid gap-2">
+        {% for num, label in options %}
+          <button type="button" class="option-btn" data-choice="{{ num }}">
+            <span class="text-secondary me-2">{{ num }}.</span>{{ label }}
+          </button>
+        {% endfor %}
+      </div>
+      <p class="small text-secondary mt-4 mb-0">{% trans "Tap an answer. The correct option is highlighted after you choose." %}</p>
+    </div>
+
+    <noscript>
+      <div class="arena-card p-4 mt-3">
+        <p class="small text-warning mb-2">{% trans "JavaScript is disabled — instant feedback is unavailable." %}</p>
+        <form method="post" action="{% url 'quiz_play' %}">
+          {% csrf_token %}
+          <label class="form-label small">{% trans "Your answer (1–4)" %}</label>
+          <select name="choice" class="form-select bg-dark text-white border-secondary mb-2" required>
+            <option value="">{% trans "Choose…" %}</option>
+            {% for num, label in options %}
+              <option value="{{ num }}">{{ num }}. {{ label }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-arena-primary">{% trans "Submit" %}</button>
+        </form>
+      </div>
+    </noscript>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/quiz.js' %}"></script>
+{% endblock %}

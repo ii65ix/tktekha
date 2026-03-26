@@ -1,0 +1,37 @@
+{% extends "quiz/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Login" %} — {% trans "تكتكها" %}{% endblock %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container" style="max-width: 440px;">
+    <div class="text-center mb-4 fade-in-up">
+      <h1 class="h3">{% trans "Welcome back" %}</h1>
+      <p class="text-secondary small">{% trans "Login to save scores and appear on the leaderboard." %}</p>
+    </div>
+    <div class="arena-card p-4 p-md-5 fade-in-up">
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger small">{{ form.non_field_errors }}</div>
+        {% endif %}
+        {% if request.GET.next %}
+          <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
+        {% for field in form %}
+          <div class="mb-3">
+            <label class="form-label small text-secondary" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-arena-primary w-100 btn-lg">{% trans "Login" %}</button>
+      </form>
+      <p class="text-center small text-secondary mt-4 mb-0">
+        {% trans "No account?" %} <a href="{% url 'register' %}" class="text-info">{% trans "Register" %}</a>
+      </p>
+    </div>
+  </div>
+</section>
+{% endblock %}

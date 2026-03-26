@@ -1,0 +1,97 @@
+{% extends "quiz/base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Home" %} — {% trans "تكتكها" %}{% endblock %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="row align-items-center g-4 fade-in-up">
+      <div class="col-lg-7">
+        <span class="pill mb-3">{% trans "Fast rounds · 10 questions · Count-up timer" %}</span>
+        <h1 class="hero-title mb-3">{% trans "Play" %} <span class="brand-glow">{% trans "تكتكها" %}</span></h1>
+        <p class="hero-sub lead mb-4">{% trans "Pick a category, answer quickly, and climb the global leaderboard. Polished cards, smooth motion, and instant feedback." %}</p>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="{% url 'categories' %}" class="btn btn-arena-primary btn-lg">{% trans "Start playing" %}</a>
+          <a href="{% url 'leaderboard' %}" class="btn btn-arena-outline btn-lg">{% trans "View leaderboard" %}</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="arena-card arena-card-hover p-4 p-lg-5">
+          <h5 class="mb-3">{% trans "Spotlight" %}</h5>
+          <p class="text-secondary small mb-4">{% trans "Seven curated categories — 50 questions each — random ten every match." %}</p>
+          <ul class="list-unstyled small text-secondary mb-0">
+            <li class="mb-2">✦ {% trans "General knowledge & science" %}</li>
+            <li class="mb-2">✦ {% trans "Sports & movies" %}</li>
+            <li class="mb-2">✦ {% trans "Logic, fun, and lifestyle" %}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pb-5">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <h2 class="h4 mb-0">{% trans "Categories" %}</h2>
+      <a href="{% url 'categories' %}" class="small text-info text-decoration-none">{% trans "See all" %}</a>
+    </div>
+    <div class="row g-4">
+      {% for cat in categories %}
+        <div class="col-md-6 col-xl-4 fade-in-up">
+          <div class="arena-card arena-card-hover p-4 h-100 d-flex flex-column">
+            <div class="category-thumb-wrap" aria-hidden="true">
+              <img
+                class="category-funny-thumb"
+                src="{% static cat.category_image_relpath %}"
+                alt=""
+                width="200"
+                height="200"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <h3 class="h5">{{ cat.display_name }}</h3>
+            <p class="text-secondary small flex-grow-1">{% trans "50 questions · 10 per game" %}</p>
+            {% url 'start_quiz' cat.slug as start_url %}
+            {% if user.is_authenticated %}
+              <a href="{{ start_url }}" class="btn btn-arena-primary mt-2 align-self-start">{% trans "Play" %}</a>
+            {% else %}
+              <a href="{% url 'login' %}?next={{ start_url|urlencode }}" class="btn btn-arena-outline mt-2 align-self-start">{% trans "Login to play" %}</a>
+            {% endif %}
+          </div>
+        </div>
+      {% empty %}
+        <p class="text-secondary">{% trans "Run" %} <code>python manage.py seed_questions</code> {% trans "to load categories." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if top_preview %}
+<section class="pb-5">
+  <div class="container">
+    <div class="arena-card p-4 p-md-5">
+      <h2 class="h5 mb-4">{% trans "Leaderboard preview" %}</h2>
+      <div class="row g-3">
+        {% for row in top_preview %}
+          <div class="col-md-6 col-lg-4">
+            <div class="d-flex align-items-center gap-3 p-3 rounded-3" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+              <span class="rank-badge">{{ forloop.counter }}</span>
+              <div>
+                <div class="fw-semibold">{{ row.user__username }}</div>
+                <div class="small text-secondary">{{ row.total }} {% trans "pts" %}</div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="text-center mt-4">
+        <a href="{% url 'leaderboard' %}" class="btn btn-arena-outline">{% trans "Full leaderboard" %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,243 @@
+# Arabic translations for تكتكها.
+msgid ""
+msgstr ""
+"Project-Id-Version: تكتكها\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+
+msgid "Not enough questions in this category yet. Please try another."
+msgstr "لا يوجد أسئلة كافية في هذا التصنيف بعد. جرّب تصنيفًا آخر."
+
+msgid "Start a quiz from the categories page."
+msgstr "ابدأ جولة من صفحة التصنيفات."
+
+msgid "Finish all questions first."
+msgstr "أنهِ جميع الأسئلة أولاً."
+
+msgid "Welcome to تكتكها!"
+msgstr "مرحبًا بك في تكتكها!"
+
+msgid "Username"
+msgstr "اسم المستخدم"
+
+msgid "Password"
+msgstr "كلمة المرور"
+
+msgid "Email address"
+msgstr "البريد الإلكتروني"
+
+msgid "Password confirmation"
+msgstr "تأكيد كلمة المرور"
+
+msgid "تكتكها"
+msgstr "تكتكها"
+
+msgid "Toggle navigation"
+msgstr "إظهار/إخفاء القائمة"
+
+msgid "Home"
+msgstr "الرئيسية"
+
+msgid "Categories"
+msgstr "التصنيفات"
+
+msgid "Leaderboard"
+msgstr "لوحة المتصدرين"
+
+msgid "Profile"
+msgstr "الملف الشخصي"
+
+msgid "Logout"
+msgstr "تسجيل الخروج"
+
+msgid "Login"
+msgstr "تسجيل الدخول"
+
+msgid "Register"
+msgstr "إنشاء حساب"
+
+msgid "Practice, compete, and climb the leaderboard."
+msgstr "تدرّب، تنافس، وتسلّق لوحة المتصدرين."
+
+msgid "Fast rounds · 10 questions · Count-up timer"
+msgstr "جولات سريعة · 10 أسئلة · عدّاد زمن تصاعدي"
+
+msgid "Play"
+msgstr "العب"
+
+msgid "Pick a category, answer quickly, and climb the global leaderboard. Polished cards, smooth motion, and instant feedback."
+msgstr "اختر تصنيفًا، أجب بسرعة، وتسلّق لوحة المتصدرين العالمية. بطاقات أنيقة، حركة سلسة، ونتيجة فورية."
+
+msgid "Start playing"
+msgstr "ابدأ اللعب"
+
+msgid "View leaderboard"
+msgstr "عرض لوحة المتصدرين"
+
+msgid "Spotlight"
+msgstr "في الواجهة"
+
+msgid "Seven curated categories — 50 questions each — random ten every match."
+msgstr "سبعة تصنيفات مختارة — 50 سؤالًا لكل منها — عشوائي عشرة في كل جولة."
+
+msgid "General knowledge & science"
+msgstr "معرفة عامة وعلوم"
+
+msgid "Sports & movies"
+msgstr "رياضة وأفلام"
+
+msgid "Logic, fun, and lifestyle"
+msgstr "منطق، ترفيه، ونمط حياة"
+
+msgid "See all"
+msgstr "عرض الكل"
+
+msgid "50 questions · 10 per game"
+msgstr "50 سؤالًا · 10 في كل جولة"
+
+msgid "Login to play"
+msgstr "سجّل الدخول للعب"
+
+msgid "Run"
+msgstr "شغّل"
+
+msgid "to load categories."
+msgstr "لتحميل التصنيفات."
+
+msgid "Leaderboard preview"
+msgstr "معاينة لوحة المتصدرين"
+
+msgid "pts"
+msgstr "نقاط"
+
+msgid "Full leaderboard"
+msgstr "لوحة المتصدرين الكاملة"
+
+msgid "Choose your arena"
+msgstr "اختر ساحتك"
+
+msgid "Each category has 50 questions. Every game picks 10 at random."
+msgstr "كل تصنيف يحتوي على 50 سؤالًا. تُختار عشوائيًا عشرة في كل جولة."
+
+msgid "Train your reflexes and knowledge — ten quick questions with a count-up timer."
+msgstr "درّب سرعة استجابتك ومعرفتك — عشرة أسئلة سريعة مع عدّاد زمن تصاعدي."
+
+msgid "Start quiz"
+msgstr "ابدأ الجولة"
+
+msgid "Login to start"
+msgstr "سجّل الدخول للبدء"
+
+msgid "No categories yet. Seed the database from the project README."
+msgstr "لا توجد تصنيفات بعد. املأ قاعدة البيانات كما في ملف README."
+
+msgid "Quiz"
+msgstr "الجولة"
+
+msgid "Elapsed (seconds)"
+msgstr "الزمن المنقضي (ثوانٍ)"
+
+msgid "Quiz progress"
+msgstr "تقدّم الجولة"
+
+msgid "Tap an answer. The correct option is highlighted after you choose."
+msgstr "اضغط على إجابة. يُبرَز الخيار الصحيح بعد اختيارك."
+
+msgid "JavaScript is disabled — instant feedback is unavailable."
+msgstr "جافاسكربت معطّل — التغذية الراجعة الفورية غير متوفرة."
+
+msgid "Your answer (1–4)"
+msgstr "إجابتك (1–4)"
+
+msgid "Choose…"
+msgstr "اختر…"
+
+msgid "Submit"
+msgstr "إرسال"
+
+msgid "Question"
+msgstr "سؤال"
+
+msgid "Results"
+msgstr "النتائج"
+
+msgid "Round complete"
+msgstr "انتهت الجولة"
+
+msgid "You scored"
+msgstr "حصلت على"
+
+msgid "out of"
+msgstr "من أصل"
+
+msgid "Total points across all games:"
+msgstr "إجمالي النقاط في كل الجولات:"
+
+msgid "Review"
+msgstr "مراجعة"
+
+msgid "Correct"
+msgstr "صحيح"
+
+msgid "Missed"
+msgstr "خطأ"
+
+msgid "Correct answer:"
+msgstr "الإجابة الصحيحة:"
+
+msgid "option"
+msgstr "الخيار"
+
+msgid "Play again"
+msgstr "العب مجددًا"
+
+msgid "More categories"
+msgstr "المزيد من التصنيفات"
+
+msgid "Global ranks"
+msgstr "الترتيب العالمي"
+
+msgid "Players ranked by total points earned across all categories."
+msgstr "اللاعبون مرتبون حسب مجموع النقاط في كل التصنيفات."
+
+msgid "No scores yet — be the first to complete a quiz."
+msgstr "لا نتائج بعد — كن أول من يكمل جولة."
+
+msgid "Play a quiz"
+msgstr "العب جولة"
+
+msgid "Add an email in Django admin if needed."
+msgstr "أضف بريدًا إلكترونيًا من لوحة الإدارة إن لزم."
+
+msgid "Total score"
+msgstr "مجموع النقاط"
+
+msgid "Recent games"
+msgstr "آخر الجولات"
+
+msgid "No games yet."
+msgstr "لا جولات بعد."
+
+msgid "Start a category."
+msgstr "ابدأ من تصنيف."
+
+msgid "Welcome back"
+msgstr "مرحبًا بعودتك"
+
+msgid "Login to save scores and appear on the leaderboard."
+msgstr "سجّل الدخول لحفظ النقاط والظهور في لوحة المتصدرين."
+
+msgid "No account?"
+msgstr "ليس لديك حساب؟"
+
+msgid "Create your arena profile"
+msgstr "أنشئ ملفك في الساحة"
+
+msgid "Choose a username and start climbing the leaderboard."
+msgstr "اختر اسمًا وابدأ التسلّق في لوحة المتصدرين."
+
+msgid "Already have an account?"
+msgstr "لديك حساب بالفعل؟"

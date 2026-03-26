@@ -1,0 +1,45 @@
+{% extends "quiz/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Results" %} — {% trans "تكتكها" %}{% endblock %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container" style="max-width: 720px;">
+    <div class="text-center mb-5 fade-in-up">
+      <span class="pill mb-3">{{ category.display_name }}</span>
+      <h1 class="hero-title mb-2">{% trans "Round complete" %}</h1>
+      <p class="hero-sub mx-auto">
+        {% trans "You scored" %} <strong class="text-white">{{ score }}</strong> {% trans "out of" %} <strong>{{ max_score }}</strong>.
+      </p>
+      <p class="text-secondary small mb-0">
+        {% trans "Total points across all games:" %}
+        <span class="text-info fw-semibold">{{ total_points }}</span>
+      </p>
+    </div>
+
+    <div class="arena-card p-4 p-md-5 mb-4 fade-in-up">
+      <h2 class="h6 text-secondary mb-3">{% trans "Review" %}</h2>
+      {% for item in details %}
+        <div class="border-bottom border-secondary border-opacity-25 py-3 {% if forloop.last %}border-0{% endif %}">
+          <p class="mb-2 small fw-semibold {% if item.is_correct %}text-success{% else %}text-danger{% endif %}">
+            {% if item.is_correct %}✓ {% trans "Correct" %}{% else %}✗ {% trans "Missed" %}{% endif %}
+          </p>
+          <p class="mb-2">{{ item.question.text_localized }}</p>
+          <p class="small text-secondary mb-0">
+            {% trans "Correct answer:" %}
+            {% trans "option" %} {{ item.question.correct_answer }} —
+            {{ item.question.correct_option_localized }}
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 justify-content-center">
+      <a href="{% url 'start_quiz' category.slug %}" class="btn btn-arena-primary btn-lg">{% trans "Play again" %}</a>
+      <a href="{% url 'categories' %}" class="btn btn-arena-outline btn-lg">{% trans "More categories" %}</a>
+      <a href="{% url 'leaderboard' %}" class="btn btn-arena-outline btn-lg">{% trans "Leaderboard" %}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

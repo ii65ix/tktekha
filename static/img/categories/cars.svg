@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-hidden="true">
+  <rect width="200" height="200" fill="#0f172a" rx="22"/>
+  <!-- silly monster truck vibe -->
+  <rect x="35" y="118" width="130" height="44" rx="10" fill="#f97316" stroke="#fdba74" stroke-width="3"/>
+  <rect x="55" y="88" width="90" height="42" rx="8" fill="#fb923c"/>
+  <polygon points="100,78 125,88 75,88" fill="#fcd34d"/>
+  <circle cx="72" cy="108" r="11" fill="#fff"/>
+  <circle cx="74" cy="106" r="4" fill="#0f172a"/>
+  <circle cx="128" cy="108" r="11" fill="#fff"/>
+  <circle cx="130" cy="106" r="4" fill="#0f172a"/>
+  <path d="M85 120 Q100 132 115 120" fill="none" stroke="#7c2d12" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="52" cy="150" rx="20" ry="20" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+  <ellipse cx="148" cy="150" rx="20" ry="20" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+  <circle cx="52" cy="150" r="8" fill="#475569"/>
+  <circle cx="148" cy="150" r="8" fill="#475569"/>
+  <text x="100" y="52" text-anchor="middle" fill="#fde68a" font-size="16" font-family="system-ui,sans-serif" font-weight="900">بيب بيب!</text>
+</svg>

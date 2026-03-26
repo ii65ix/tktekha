@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-hidden="true">
+  <rect width="200" height="200" fill="#292524" rx="22"/>
+  <!-- popcorn bucket + 3D glasses -->
+  <path d="M58 148 L142 148 L132 88 L68 88 Z" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
+  <ellipse cx="100" cy="88" rx="42" ry="12" fill="#fde68a" stroke="#ca8a04" stroke-width="2"/>
+  <circle cx="82" cy="118" r="10" fill="#fef9c3"/>
+  <circle cx="100" cy="128" r="12" fill="#fef9c3"/>
+  <circle cx="118" cy="118" r="10" fill="#fef9c3"/>
+  <ellipse cx="100" cy="52" rx="38" ry="14" fill="#1c1917"/>
+  <rect x="70" y="52" width="60" height="8" fill="#ef4444" opacity="0.9"/>
+  <rect x="70" y="56" width="26" height="8" fill="#3b82f6" opacity="0.95"/>
+  <circle cx="82" cy="56" r="3" fill="#fff" opacity="0.3"/>
+  <circle cx="118" cy="56" r="3" fill="#fff" opacity="0.3"/>
+  <circle cx="100" cy="32" r="6" fill="#fbbf24"/>
+  <text x="100" y="182" text-anchor="middle" fill="#e7e5e4" font-size="12" font-family="system-ui,sans-serif" font-weight="700">???? + ???? = ?????</text>
+</svg>

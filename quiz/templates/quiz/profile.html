@@ -1,0 +1,44 @@
+{% extends "quiz/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Profile" %} — {{ user.username }} — {% trans "تكتكها" %}{% endblock %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container" style="max-width: 720px;">
+    <div class="arena-card p-4 p-md-5 mb-4 fade-in-up">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div>
+          <h1 class="h3 mb-1">{{ user.username }}</h1>
+          <p class="text-secondary small mb-0">
+            {% if user.email %}{{ user.email }}{% else %}{% trans "Add an email in Django admin if needed." %}{% endif %}
+          </p>
+        </div>
+        <div class="text-end">
+          <div class="small text-secondary">{% trans "Total score" %}</div>
+          <div class="display-6 brand-glow">{{ total_score }}</div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="h6 text-secondary mb-3">{% trans "Recent games" %}</h2>
+    <div class="arena-card p-0 overflow-hidden fade-in-up">
+      {% if recent %}
+        {% for s in recent %}
+          <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom border-secondary border-opacity-25">
+            <div>
+              <div class="fw-semibold">{{ s.category.display_name }}</div>
+              <div class="small text-secondary">{{ s.date|date:"M j, Y H:i" }}</div>
+            </div>
+            <span class="badge rounded-pill text-bg-primary">{{ s.score }}/10</span>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="p-4 text-secondary">
+          {% trans "No games yet." %} <a href="{% url 'categories' %}" class="text-info">{% trans "Start a category." %}</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

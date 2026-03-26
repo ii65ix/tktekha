@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="ocean" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" fill="#082f49" rx="22"/>
+  <circle cx="100" cy="105" r="64" fill="url(#ocean)"/>
+  <path d="M55 95 Q75 75 95 90 Q115 105 135 85 Q150 95 148 115 Q130 135 100 140 Q70 138 52 115 Z" fill="#22c55e" opacity="0.85"/>
+  <path d="M90 118 Q110 128 125 115" fill="#15803d" opacity="0.6"/>
+  <!-- silly pin on globe -->
+  <circle cx="118" cy="72" r="10" fill="#ef4444"/>
+  <circle cx="118" cy="72" r="4" fill="#fecaca"/>
+  <path d="M118 82 L118 98" stroke="#b91c1c" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="88" cy="102" r="9" fill="#fff"/>
+  <circle cx="90" cy="100" r="3" fill="#0f172a"/>
+  <circle cx="112" cy="102" r="9" fill="#fff"/>
+  <circle cx="114" cy="100" r="3" fill="#0f172a"/>
+  <path d="M94 114 Q100 120 106 114" fill="none" stroke="#0f172a" stroke-width="2"/>
+  <text x="100" y="38" text-anchor="middle" fill="#bae6fd" font-size="14" font-family="system-ui,sans-serif" font-weight="800">وين هالبلد؟</text>
+</svg>

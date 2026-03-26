@@ -1,0 +1,45 @@
+{% extends "quiz/base.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "Categories" %} — {% trans "تكتكها" %}{% endblock %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5 fade-in-up">
+      <span class="pill mb-3">{% trans "Choose your arena" %}</span>
+      <h1 class="hero-title">{% trans "Categories" %}</h1>
+      <p class="hero-sub mx-auto">{% trans "Each category has 50 questions. Every game picks 10 at random." %}</p>
+    </div>
+    <div class="row g-4">
+      {% for cat in categories %}
+        <div class="col-md-6 col-xl-4 fade-in-up">
+          <div class="arena-card arena-card-hover p-4 h-100 d-flex flex-column">
+            <div class="category-thumb-wrap" aria-hidden="true">
+              <img
+                class="category-funny-thumb"
+                src="{% static cat.category_image_relpath %}"
+                alt=""
+                width="200"
+                height="200"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <h2 class="h5">{{ cat.display_name }}</h2>
+            <p class="text-secondary small flex-grow-1">{% trans "Train your reflexes and knowledge — ten quick questions with a count-up timer." %}</p>
+            {% url 'start_quiz' cat.slug as start_url %}
+            {% if user.is_authenticated %}
+              <a href="{{ start_url }}" class="btn btn-arena-primary mt-3">{% trans "Start quiz" %}</a>
+            {% else %}
+              <a href="{% url 'login' %}?next={{ start_url|urlencode }}" class="btn btn-arena-primary mt-3">{% trans "Login to start" %}</a>
+            {% endif %}
+          </div>
+        </div>
+      {% empty %}
+        <p>{% trans "No categories yet. Seed the database from the project README." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

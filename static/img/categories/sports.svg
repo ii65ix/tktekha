@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-hidden="true">
+  <rect width="200" height="200" fill="#14532d" rx="22"/>
+  <!-- basketball with attitude -->
+  <circle cx="100" cy="108" r="56" fill="#ea580c" stroke="#fdba74" stroke-width="4"/>
+  <path d="M44 108 L156 108 M100 52 L100 164" stroke="#7c2d12" stroke-width="3" opacity="0.5"/>
+  <path d="M56 64 Q100 108 144 152 M144 64 Q100 108 56 152" stroke="#7c2d12" stroke-width="2.5" opacity="0.45" fill="none"/>
+  <ellipse cx="100" cy="88" rx="48" ry="16" fill="#1e293b" opacity="0.9"/>
+  <circle cx="82" cy="84" r="9" fill="#fef08a"/>
+  <circle cx="118" cy="84" r="9" fill="#fef08a"/>
+  <circle cx="84" cy="82" r="3" fill="#0f172a"/>
+  <circle cx="120" cy="82" r="3" fill="#0f172a"/>
+  <path d="M88 98 Q100 106 112 98" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="100" y="42" text-anchor="middle" fill="#bbf7d0" font-size="15" font-family="system-ui,sans-serif" font-weight="800">سلّمها يا زلمة</text>
+</svg>
