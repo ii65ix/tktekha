@@ -11,10 +11,10 @@ export DJANGO_SETTINGS_MODULE="${DJANGO_SETTINGS_MODULE:-smart_quiz_arena.settin
 
 python manage.py migrate --noinput
 python scripts/compile_locale.py
-python manage.py collectstatic --noinput || true
+python manage.py collectstatic --noinput
 
 if [[ "${SEED_ON_BUILD:-1}" == "1" ]]; then
-  python manage.py seed_questions
+  python manage.py seed_questions --skip-if-seeded
 fi
 
 echo "Build complete. Create a superuser with: python manage.py createsuperuser"

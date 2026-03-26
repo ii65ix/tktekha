@@ -19,9 +19,19 @@ class Command(BaseCommand):
             action="store_true",
             help="After seeding, run machine translation to fill Arabic fields (not needed for bilingual seed).",
         )
+        parser.add_argument(
+            "--skip-if-seeded",
+            action="store_true",
+            help="If questions already exist, exit successfully (for CI / Render redeploys).",
+        )
 
     def handle(self, *args, **options):
         if Question.objects.exists() and not options["reset"]:
+            if options["skip_if_seeded"]:
+                self.stdout.write(
+                    self.style.WARNING("Questions already exist — skipping seed (use --reset to replace).")
+                )
+                return
             raise CommandError(
                 "Questions already exist. Run with --reset to delete and reseed, "
                 "or clear the database first."

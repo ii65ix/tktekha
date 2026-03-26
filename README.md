@@ -46,6 +46,23 @@ python manage.py runserver
 
 Open [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
 
+### النشر على Render (Render.com)
+
+1. ارفع المشروع على **GitHub** أو **GitLab**.
+2. في [Render](https://render.com): **New → Blueprint** (أو **Web Service** يدويًا).
+3. اختر المستودع؛ Render يقرأ `render.yaml` وينشئ **PostgreSQL** مجاني + **Web Service**.
+4. متغيرات البيئة المهمّة (تُضبط تلقائيًا من الـ Blueprint حيث ينطبق):
+   - `SECRET_KEY` — يُولَّد تلقائيًا.
+   - `DATABASE_URL` — من قاعدة البيانات المربوطة.
+   - `DEBUG=false`
+   - `RENDER_EXTERNAL_HOSTNAME` — يضبطه Render (يُستخدم لـ `ALLOWED_HOSTS` و`CSRF_TRUSTED_ORIGINS`).
+5. **البناء:** `pip install -r requirements.txt && bash build.sh` (ترحيلات، `collectstatic`، تعبئة الأسئلة عند أول تشغيل عبر `seed_questions --skip-if-seeded`).
+6. **التشغيل:** `gunicorn smart_quiz_arena.wsgi:application --bind 0.0.0.0:$PORT`
+7. بعد النشر: أنشئ حساب إدارة من **Shell** في لوحة Render:
+   `python manage.py createsuperuser`
+
+لو نشرت **يدويًا** بدون Blueprint: أنشئ **PostgreSQL** ثم **Web Service** (Python)، واربط متغير `DATABASE_URL`، ونفس أوامر البناء والتشغيل أعلاه.
+
 ### Seeding / resetting questions
 
 The project ships with **350** bilingual questions (**7×50**, English + Arabic). Categories: **Cars**, **Sports**, **General Knowledge**, **Geography**, **Beauty (Girls)**, **Science**, **Movies** (slugs: `cars`, `sports`, `general-knowledge`, `geography`, `beauty-lifestyle`, `science`, `movies`). Data lives under `quiz/data/bilingual_*.py` and is aggregated in `quiz/data/bilingual_seed.py`.
