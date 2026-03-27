@@ -1,0 +1,44 @@
+{% extends "quiz/base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Tamasih team challenge" %} — {% trans "تكتكها" %}{% endblock %}
+
+{% block content %}
+<section class="py-4 py-md-5">
+  <div class="container" style="max-width: 560px;">
+    <div class="arena-card p-4 p-md-5 fade-in-up">
+      <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
+        <img
+          class="category-thumb-quiz"
+          src="{% static category.category_image_relpath %}"
+          alt=""
+          width="56"
+          height="56"
+          loading="lazy"
+          decoding="async"
+        />
+        <div>
+          <span class="pill">{% trans "Two teams" %}</span>
+          <h1 class="h4 mb-0">{{ category.display_name }}</h1>
+        </div>
+      </div>
+      <p class="text-secondary small mb-4">
+        {% blocktrans with n=round_questions %}Enter two team names. Questions alternate by turn ({{ n }} questions). Focus: general knowledge, tech, programming, and some religious questions.{% endblocktrans %}
+      </p>
+      <form method="post" action="">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label" for="id_team1">{% trans "Team 1 name" %}</label>
+          <input type="text" class="form-control bg-dark text-white border-secondary" name="team1_name" id="id_team1" maxlength="48" placeholder="{% trans 'Team 1' %}" autocomplete="off">
+        </div>
+        <div class="mb-4">
+          <label class="form-label" for="id_team2">{% trans "Team 2 name" %}</label>
+          <input type="text" class="form-control bg-dark text-white border-secondary" name="team2_name" id="id_team2" maxlength="48" placeholder="{% trans 'Team 2' %}" autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn-arena-primary btn-lg w-100">{% trans "Start match" %}</button>
+      </form>
+      <p class="small text-secondary mt-3 mb-0">{% trans "The logged-in account saves the combined score to the leaderboard." %}</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -176,6 +176,9 @@ msgstr "من أصل"
 msgid "Total points across all games:"
 msgstr "إجمالي النقاط في كل الجولات:"
 
+msgid "Tamasih mode: your score is multiplied."
+msgstr "وضع تماسيح: يتم مضاعفة نقاطك."
+
 msgid "Review"
 msgstr "مراجعة"
 
@@ -241,3 +244,47 @@ msgstr "اختر اسمًا وابدأ التسلّق في لوحة المتصد
 
 msgid "Already have an account?"
 msgstr "لديك حساب بالفعل؟"
+
+msgid "Tamasih team challenge"
+msgstr "تحدي تماسيح عبودكا (فريقان)"
+
+msgid "Two teams"
+msgstr "فريقان"
+
+#, python-format
+msgid "Enter two team names. Questions alternate by turn (%(n)s questions). Focus: general knowledge, tech, programming, and some religious questions."
+msgstr "أدخل اسمي الفريقين. الأسئلة بالتناوب (%(n)s سؤالًا). التركيز: معرفة عامة، وتقنية، وبرمجة، وبعض الأسئلة الدينية."
+
+#, python-format
+msgid "%(name)s wins this round."
+msgstr "فريق %(name)s يفوز بهذه الجولة."
+
+msgid "Team 1 name"
+msgstr "اسم الفريق الأول"
+
+msgid "Team 2 name"
+msgstr "اسم الفريق الثاني"
+
+msgid "Team 1"
+msgstr "الفريق 1"
+
+msgid "Team 2"
+msgstr "الفريق 2"
+
+msgid "Start match"
+msgstr "ابدأ المباراة"
+
+msgid "The logged-in account saves the combined score to the leaderboard."
+msgstr "الحساب المسجّل يحفظ مجموع النقاط في لوحة المتصدرين."
+
+msgid "Turn"
+msgstr "الدور"
+
+msgid "Team results"
+msgstr "نتيجة الفريقين"
+
+msgid "It is a tie."
+msgstr "تعادل."
+
+msgid "Team"
+msgstr "الفريق"

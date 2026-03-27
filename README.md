@@ -65,7 +65,8 @@ Open [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
 
 ### Seeding / resetting questions
 
-The project ships with **350** bilingual questions (**7×50**, English + Arabic). Categories: **Cars**, **Sports**, **General Knowledge**, **Geography**, **Beauty (Girls)**, **Science**, **Movies** (slugs: `cars`, `sports`, `general-knowledge`, `geography`, `beauty-lifestyle`, `science`, `movies`). Data lives under `quiz/data/bilingual_*.py` and is aggregated in `quiz/data/bilingual_seed.py`.
+The project ships with **384** bilingual questions (**7×50 + 34** for the Tamasih gateway challenge) (English + Arabic).
+Categories: **Cars**, **Sports**, **General Knowledge**, **Geography**, **Beauty & Lifestyle**, **Science**, **Movies**, plus **Tamasih Abudka** (slugs: `cars`, `sports`, `general-knowledge`, `geography`, `beauty-lifestyle`, `science`, `movies`, `tmasih-abudka`). Data lives under `quiz/data/bilingual_*.py` and is aggregated in `quiz/data/bilingual_seed.py`.
 
 On a **fresh** database:
 
@@ -98,7 +99,7 @@ Set `SEED_ON_BUILD=0` to skip seeding on deploy if the database is already popul
 - `quiz/` — Main app (`models`, `views`, `urls`, `templates`, `management/commands`)
 - `static/` — `css/arena.css`, `js/quiz.js`, `img/categories/` — real thumbnails per category slug (`<slug>.jpg` / `.png` / `.webp` …; SVG fallback). See `static/img/categories/README.txt` to swap images (e.g. a makeup meme for `beauty-lifestyle`).
 - `Category.category_image_relpath()` — picks the first matching `static/img/categories/<slug>.*` file for cards.
-- `quiz/data/bilingual_seed.py` — wires the seven bilingual generators into one bank of 350 questions
+- `quiz/data/bilingual_seed.py` — wires the bilingual generators into one bank of 384 questions
 
 ## Arabic / English content
 
@@ -120,7 +121,7 @@ python manage.py translate_questions_ar
 - First run fills empty Arabic fields only. Use **`--force`** to overwrite existing Arabic text (including hand-written bilingual seed text).
 - **`--limit N`** — translate only the first N questions (for testing).
 - **`--verbosity 2`** — print each updated row.
-- This can take **roughly 30–60 minutes** for all **350** questions (several network calls per question).
+- This can take **roughly 30–60 minutes** for all **384** questions (several network calls per question).
 
 You can also run translation **right after seeding**:
 

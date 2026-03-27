@@ -1,12 +1,18 @@
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 
-from quiz.data.bilingual_seed import BILINGUAL_CATEGORIES, iter_bilingual_seed
+from collections import defaultdict
+
+from quiz.data.bilingual_seed import (
+    BILINGUAL_CATEGORIES,
+    EXPECTED_COUNTS,
+    iter_bilingual_seed,
+)
 from quiz.models import Category, Question
 
 
 class Command(BaseCommand):
-    help = "Create categories and seed 350 bilingual questions (7×50, EN + AR)."
+    help = "Create categories and seed bilingual questions (EN + AR)."
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -26,21 +32,18 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        if Question.objects.exists() and not options["reset"]:
-            if options["skip_if_seeded"]:
-                self.stdout.write(
-                    self.style.WARNING("Questions already exist — skipping seed (use --reset to replace).")
-                )
-                return
-            raise CommandError(
-                "Questions already exist. Run with --reset to delete and reseed, "
-                "or clear the database first."
-            )
-
+        # If we're deploying repeatedly (e.g. Render), we don't want duplicates.
+        # With --skip-if-seeded, we only fill missing/short categories.
         if options["reset"]:
             Question.objects.all().delete()
             Category.objects.all().delete()
             self.stdout.write(self.style.WARNING("Cleared questions and categories."))
+        elif Question.objects.exists() and not options["reset"]:
+            if not options["skip_if_seeded"]:
+                raise CommandError(
+                    "Questions already exist. Run with --reset to delete and reseed, "
+                    "or clear the database first."
+                )
 
         slug_to_cat: dict[str, Category] = {}
         for name_en, slug, name_ar in BILINGUAL_CATEGORIES:
@@ -48,15 +51,21 @@ class Command(BaseCommand):
                 slug=slug,
                 defaults={"name": name_en, "name_ar": name_ar},
             )
+            # Keep category names in sync (especially for Arabic display).
             obj.name = name_en
             obj.name_ar = name_ar
             obj.save(update_fields=["name", "name_ar"])
             slug_to_cat[slug] = obj
 
-        to_create: list[Question] = []
+        # Build the full seed bank once.
+        bank: dict[str, list[dict]] = defaultdict(list)
         for slug, q in iter_bilingual_seed():
+            bank[slug].append(q)
+
+        def seed_slug(slug: str) -> int:
             cat = slug_to_cat[slug]
-            to_create.append(
+            Question.objects.filter(category=cat).delete()
+            to_create = [
                 Question(
                     category=cat,
                     text=q["text"],
@@ -71,8 +80,34 @@ class Command(BaseCommand):
                     option4_ar=q["option4_ar"],
                     correct_answer=q["correct_answer"],
                 )
-            )
-        Question.objects.bulk_create(to_create, batch_size=100)
+                for q in bank[slug]
+            ]
+            Question.objects.bulk_create(to_create, batch_size=100)
+            return len(to_create)
+
+        if not Question.objects.exists() or options["reset"]:
+            # Fresh DB: seed everything.
+            for slug in EXPECTED_COUNTS.keys():
+                seed_slug(slug)
+        else:
+            # DB exists: only seed categories that are missing/short.
+            seeded_any = False
+            for slug, expected in EXPECTED_COUNTS.items():
+                cat = slug_to_cat[slug]
+                existing = Question.objects.filter(category=cat).count()
+                if existing < expected:
+                    self.stdout.write(
+                        self.style.WARNING(
+                            f"Seeding missing '{slug}': existing {existing}, expected {expected}"
+                        )
+                    )
+                    seed_slug(slug)
+                    seeded_any = True
+            if not seeded_any and options["skip_if_seeded"]:
+                self.stdout.write(
+                    self.style.SUCCESS("All categories already seeded — nothing to do.")
+                )
+                return
 
         self.stdout.write(
             self.style.SUCCESS(

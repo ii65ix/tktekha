@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-hidden="true">
+  <rect width="200" height="200" fill="#0b1320" rx="22"/>
+  <!-- cute crocodile / 'tmasih' vibe -->
+  <path d="M55 115c0-35 28-62 45-62s45 27 45 62c0 30-20 54-45 54s-45-24-45-54Z" fill="#22c55e" opacity="0.9"/>
+  <path d="M60 112c10-20 30-32 40-32s30 12 40 32" stroke="#14532d" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <circle cx="90" cy="110" r="10" fill="#0f172a"/>
+  <circle cx="122" cy="110" r="10" fill="#0f172a"/>
+  <circle cx="86" cy="106" r="3" fill="#fff"/>
+  <circle cx="118" cy="106" r="3" fill="#fff"/>
+  <path d="M110 128c-8 10-22 10-30 0" fill="none" stroke="#14532d" stroke-width="6" stroke-linecap="round"/>
+  <path d="M55 140c10 18 25 28 45 28s35-10 45-28" fill="#16a34a" opacity="0.7"/>
+  <text x="100" y="52" text-anchor="middle" font-size="15" fill="#fde68a" font-family="system-ui,sans-serif" font-weight="800">*E'3J- 9(H/C'</text>
+</svg>
+

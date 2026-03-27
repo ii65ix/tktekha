@@ -15,6 +15,9 @@ from .forms import ArenaLoginForm, RegisterForm
 from .models import Category, Question, Score
 
 SESSION_QUIZ_KEY = "smart_quiz_arena_quiz"
+TMASIHA_SLUG = "tmasih-abudka"
+TMASIHA_MULTIPLIER = 2  # points are different for the gateway challenge.
+TMASIHA_TEAM_MODE = "tmasih_teams"
 
 
 def redirect_beauty_girls_slug(request):
@@ -23,16 +26,17 @@ def redirect_beauty_girls_slug(request):
 
 
 def home(request):
-    categories = Category.objects.all()[:7]
+    categories = Category.objects.exclude(slug=TMASIHA_SLUG)[:7]
     top = (
         Score.objects.values("user__username")
         .annotate(total=Sum("score"))
         .order_by("-total")[:5]
     )
+    tmasih_gate = Category.objects.filter(slug=TMASIHA_SLUG).first()
     return render(
         request,
         "quiz/home.html",
-        {"categories": categories, "top_preview": top},
+        {"categories": categories, "top_preview": top, "tmasih_gate": tmasih_gate},
     )
 
 
@@ -40,24 +44,27 @@ def categories_list(request):
     return render(
         request,
         "quiz/categories.html",
-        {"categories": Category.objects.all()},
+        {"categories": Category.objects.exclude(slug=TMASIHA_SLUG)},
     )
 
 
 @login_required
 def start_quiz(request, slug):
+    if slug == TMASIHA_SLUG:
+        return redirect("tmasih_team_setup")
     category = get_object_or_404(Category, slug=slug)
     pool = list(
         Question.objects.filter(category=category).values_list("id", flat=True)
     )
-    if len(pool) < 10:
+    round_size = 10
+    if len(pool) < round_size:
         messages.error(
             request,
             _("Not enough questions in this category yet. Please try another."),
         )
         return redirect("categories")
     random.shuffle(pool)
-    chosen = pool[:10]
+    chosen = pool[:round_size]
     request.session[SESSION_QUIZ_KEY] = {
         "category_id": category.id,
         "question_ids": chosen,
@@ -66,6 +73,55 @@ def start_quiz(request, slug):
         "results": [],
     }
     return redirect("quiz_play")
+
+
+def _tmasih_round_size() -> int:
+    return 12
+
+
+@login_required
+def tmasih_team_setup(request):
+    """Two-team turn-based match for Tamasih Abudka (same device)."""
+    category = get_object_or_404(Category, slug=TMASIHA_SLUG)
+    pool = list(
+        Question.objects.filter(category=category).values_list("id", flat=True)
+    )
+    n = _tmasih_round_size()
+    if len(pool) < n:
+        messages.error(
+            request,
+            _("Not enough questions in this category yet. Please try another."),
+        )
+        return redirect("categories")
+
+    if request.method == "POST":
+        raw1 = (request.POST.get("team1_name") or "").strip()
+        raw2 = (request.POST.get("team2_name") or "").strip()
+        name1 = (raw1[:48] if raw1 else str(_("Team 1")))
+        name2 = (raw2[:48] if raw2 else str(_("Team 2")))
+        random.shuffle(pool)
+        chosen = pool[:n]
+        request.session[SESSION_QUIZ_KEY] = {
+            "category_id": category.id,
+            "question_ids": chosen,
+            "index": 0,
+            "correct": 0,
+            "results": [],
+            "mode": TMASIHA_TEAM_MODE,
+            "team_names": [name1, name2],
+            "team_scores": [0, 0],
+        }
+        request.session.modified = True
+        return redirect("quiz_play")
+
+    return render(
+        request,
+        "quiz/tmasih_team_setup.html",
+        {
+            "category": category,
+            "round_questions": n,
+        },
+    )
 
 
 @login_required
@@ -121,15 +177,22 @@ def quiz_play(request):
 
         if is_correct:
             data["correct"] = data.get("correct", 0) + 1
+            if data.get("mode") == TMASIHA_TEAM_MODE:
+                ts = data.get("team_scores") or [0, 0]
+                team_idx = idx % 2
+                if len(ts) > team_idx:
+                    ts[team_idx] = ts[team_idx] + 1
+                    data["team_scores"] = ts
 
-        data["results"].append(
-            {
-                "question_id": question.id,
-                "selected": selected,
-                "correct_answer": question.correct_answer,
-                "is_correct": is_correct,
-            }
-        )
+        result_row = {
+            "question_id": question.id,
+            "selected": selected,
+            "correct_answer": question.correct_answer,
+            "is_correct": is_correct,
+        }
+        if data.get("mode") == TMASIHA_TEAM_MODE:
+            result_row["team_index"] = idx % 2
+        data["results"].append(result_row)
         data["index"] = idx + 1
         request.session[SESSION_QUIZ_KEY] = data
         request.session.modified = True
@@ -144,6 +207,9 @@ def quiz_play(request):
                 "score_so_far": data["correct"],
                 "done": done,
             }
+            if data.get("mode") == TMASIHA_TEAM_MODE:
+                payload["team_scores"] = data.get("team_scores") or [0, 0]
+                payload["team_names"] = data.get("team_names") or []
             if done:
                 payload["redirect"] = request.build_absolute_uri(
                     reverse("quiz_result")
@@ -158,18 +224,24 @@ def quiz_play(request):
         (3, question.option_localized(3)),
         (4, question.option_localized(4)),
     ]
-    return render(
-        request,
-        "quiz/quiz.html",
-        {
-            "category": category,
-            "question": question,
-            "question_num": idx + 1,
-            "total_questions": total_q,
-            "progress": progress,
-            "options": options,
-        },
-    )
+    ctx = {
+        "category": category,
+        "question": question,
+        "question_num": idx + 1,
+        "total_questions": total_q,
+        "progress": progress,
+        "options": options,
+    }
+    if data.get("mode") == TMASIHA_TEAM_MODE:
+        names = data.get("team_names") or [str(_("Team 1")), str(_("Team 2"))]
+        scores = data.get("team_scores") or [0, 0]
+        turn = idx % 2
+        ctx["tmasih_team_mode"] = True
+        ctx["team_names"] = names
+        ctx["team_scores"] = scores
+        ctx["active_team_index"] = turn
+        ctx["active_team_name"] = names[turn] if turn < len(names) else ""
+    return render(request, "quiz/quiz.html", ctx)
 
 
 @login_required
@@ -185,18 +257,43 @@ def quiz_result(request):
         messages.info(request, _("Finish all questions first."))
         return redirect("quiz_play")
 
-    Score.objects.create(user=request.user, score=final, category=category)
+    points = final
+    max_points = len(ids)
+    if category.slug == TMASIHA_SLUG:
+        points = final * TMASIHA_MULTIPLIER
+        max_points = len(ids) * TMASIHA_MULTIPLIER
+
+    Score.objects.create(user=request.user, score=points, category=category)
+    team_mode = data.get("mode") == TMASIHA_TEAM_MODE
+    team_names = data.get("team_names") or []
+    team_scores = data.get("team_scores") or [0, 0]
+    winner_index = None
+    winner_name = None
+    is_tie = False
+    if team_mode and len(team_scores) >= 2:
+        if team_scores[0] > team_scores[1]:
+            winner_index = 0
+        elif team_scores[1] > team_scores[0]:
+            winner_index = 1
+        else:
+            is_tie = True
+        if winner_index is not None and winner_index < len(team_names):
+            winner_name = team_names[winner_index]
+
     details = []
     for i, rid in enumerate(ids):
         q = Question.objects.get(pk=rid)
         r = data["results"][i] if i < len(data.get("results", [])) else {}
-        details.append(
-            {
-                "question": q,
-                "selected": r.get("selected"),
-                "is_correct": r.get("is_correct", False),
-            }
-        )
+        row = {
+            "question": q,
+            "selected": r.get("selected"),
+            "is_correct": r.get("is_correct", False),
+        }
+        if team_mode:
+            ti = r.get("team_index")
+            if ti is not None and ti < len(team_names):
+                row["team_label"] = team_names[ti]
+        details.append(row)
 
     del request.session[SESSION_QUIZ_KEY]
     request.session.modified = True
@@ -205,15 +302,28 @@ def quiz_result(request):
         Score.objects.filter(user=request.user).aggregate(s=Sum("score"))["s"] or 0
     )
 
+    play_again_url = (
+        reverse("tmasih_team_setup")
+        if category.slug == TMASIHA_SLUG
+        else reverse("start_quiz", kwargs={"slug": category.slug})
+    )
+
     return render(
         request,
         "quiz/result.html",
         {
             "category": category,
-            "score": final,
-            "max_score": len(ids),
+            "score": points,
+            "max_score": max_points,
             "details": details,
             "total_points": total_points,
+            "tmasih_team_mode": team_mode,
+            "team_names": team_names,
+            "team_scores": team_scores,
+            "winner_index": winner_index,
+            "winner_name": winner_name,
+            "is_tie": is_tie,
+            "play_again_url": play_again_url,
         },
     )
 

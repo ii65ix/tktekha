@@ -188,6 +188,36 @@ body.arena-body {
     padding: 0.65rem 0.85rem;
     border-radius: 0.75rem;
   }
+
+  /* When collapse menu opens on phones, force a clean vertical layout. */
+  .arena-nav-collapse.show {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.9rem;
+    align-items: stretch;
+  }
+
+  .nav-arena-main {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    flex-direction: column;
+  }
+
+  .nav-arena-toolbar {
+    flex-direction: column !important;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .nav-arena-auth .btn {
+    width: 100%;
+  }
+
+  .nav-arena-lang {
+    margin: 0 auto;
+  }
 }
 
 .brand-glow {
@@ -484,4 +514,14 @@ body.arena-body {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 0;
+}
+
+/* Tamasih two-team turn banner */
+.tmasih-team-banner {
+  border: 1px solid rgba(13, 202, 240, 0.25);
+  background: linear-gradient(
+    135deg,
+    rgba(13, 202, 240, 0.08),
+    rgba(111, 66, 193, 0.06)
+  );
 }

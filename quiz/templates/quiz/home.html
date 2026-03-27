@@ -69,6 +69,42 @@
   </div>
 </section>
 
+{% if tmasih_gate %}
+<section class="pb-5">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <h2 class="h4 mb-0">بوابة تماسيح عبودكا</h2>
+      <span class="small text-secondary">النقاط هنا مختلفة (مضاعفة)</span>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="arena-card p-4 p-md-5 fade-in-up">
+          <div class="d-flex align-items-center gap-3 flex-wrap">
+            <span class="pill">بوابة تحدي</span>
+            <h3 class="h4 mb-0">{{ tmasih_gate.display_name }}</h3>
+          </div>
+          <p class="text-secondary mt-3 mb-4">
+            لعب جماعي: فريقان بالدور — معرفة عامة (التركيز الأساسي)، تقنية وبرمجة، وأسئلة دينية. 12 سؤالًا لكل جولة.
+          </p>
+          {% url 'tmasih_team_setup' as tmasih_start_url %}
+          {% if user.is_authenticated %}
+            <a href="{{ tmasih_start_url }}" class="btn btn-arena-primary btn-lg">ادخل التحدي</a>
+          {% else %}
+            <a href="{% url 'login' %}?next={{ tmasih_start_url|urlencode }}" class="btn btn-arena-outline btn-lg">سجّل للدخول</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="arena-card p-4 h-100 fade-in-up">
+          <h5 class="mb-2">كيف تحسب النقاط؟</h5>
+          <p class="text-secondary small mb-0">عدد الإجابات الصحيحة ينضرب في مضاعف هذا الوضع.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
 {% if top_preview %}
 <section class="pb-5">
   <div class="container">
