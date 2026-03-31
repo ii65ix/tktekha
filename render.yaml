@@ -13,7 +13,8 @@ services:
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt && bash build.sh
-    startCommand: gunicorn smart_quiz_arena.wsgi:application --bind 0.0.0.0:$PORT
+    # ASGI (Daphne) is required for WebSocket / Django Channels. Set REDIS_URL for multi-instance.
+    startCommand: daphne -b 0.0.0.0 -p $PORT smart_quiz_arena.asgi:application
     healthCheckPath: /
     envVars:
       - key: PYTHON_VERSION
@@ -30,5 +31,8 @@ services:
         fromDatabase:
           name: taktakaha-db
           property: connectionString
+      # Create a Render Redis instance and paste its URL here (required for Channels in production):
+      - key: REDIS_URL
+        sync: false
       # After first deploy, set this to your real URL (HTTPS) to fix CSRF on login:
       # Environment → Add: CSRF_TRUSTED_ORIGINS = https://taktakaha.onrender.com

@@ -11,6 +11,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
+from numbergame.models import Profile as NumbergameProfile
+
 from .forms import ArenaLoginForm, RegisterForm
 from .models import Category, Question, Score
 
@@ -32,11 +34,10 @@ def home(request):
         .annotate(total=Sum("score"))
         .order_by("-total")[:5]
     )
-    tmasih_gate = Category.objects.filter(slug=TMASIHA_SLUG).first()
     return render(
         request,
         "quiz/home.html",
-        {"categories": categories, "top_preview": top, "tmasih_gate": tmasih_gate},
+        {"categories": categories, "top_preview": top},
     )
 
 
@@ -342,10 +343,15 @@ def profile(request):
     user = request.user
     total = Score.objects.filter(user=user).aggregate(s=Sum("score"))["s"] or 0
     recent = Score.objects.filter(user=user).select_related("category")[:15]
+    ng_profile, _ = NumbergameProfile.objects.get_or_create(user=user)
     return render(
         request,
         "quiz/profile.html",
-        {"total_score": total, "recent": recent},
+        {
+            "total_score": total,
+            "recent": recent,
+            "numbergame_score": ng_profile.score,
+        },
     )
 
 

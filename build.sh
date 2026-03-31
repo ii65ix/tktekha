@@ -18,4 +18,5 @@ if [[ "${SEED_ON_BUILD:-1}" == "1" ]]; then
 fi
 
 echo "Build complete. Create a superuser with: python manage.py createsuperuser"
-echo "Run the app with: python manage.py runserver 0.0.0.0:8000"
+echo "Run the app (HTTP+WS): daphne -b 0.0.0.0 -p 8000 smart_quiz_arena.asgi:application"
+echo "Or dev: python manage.py runserver 0.0.0.0:8000"

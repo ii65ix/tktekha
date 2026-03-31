@@ -288,3 +288,108 @@ msgstr "تعادل."
 
 msgid "Team"
 msgstr "الفريق"
+
+msgid "Guess 1v1"
+msgstr "تخمين 1 ضد 1"
+
+msgid "Quiz total score"
+msgstr "مجموع نقاط التكتكها"
+
+msgid "Guess 1v1 score"
+msgstr "نقاط تخمين الرقم"
+
+msgid "Online number guess (1v1)"
+msgstr "تخمين الرقم أونلاين (1 ضد 1)"
+
+msgid "Friends & invites"
+msgstr "الأصدقاء والدعوات"
+
+msgid "Realtime"
+msgstr "مباشر"
+
+msgid "Guess the secret number"
+msgstr "خمّن الرقم السري"
+
+msgid "One player picks 1–100, the other guesses first; after each wrong guess, turns switch. Hints: higher / lower until someone wins."
+msgstr "أحد اللاعبين يختار رقمًا من 1 إلى 100، والآخر يبدأ التخمين؛ بعد كل تخمين خاطئ يتبادلان الدور. تلميحات: أعلى / أقل حتى يفوز أحد."
+
+msgid "Open lobby"
+msgstr "فتح الردهة"
+
+msgid "Scoring"
+msgstr "النقاط"
+
+msgid "Winner +3, loser −1 (score never below 0)."
+msgstr "الفائز +3، الخاسر −1 (لا يقل السكور عن 0)."
+
+msgid "Guess 1v1 lobby"
+msgstr "ردهة تخمين الرقم"
+
+msgid "Number guessing (1v1)"
+msgstr "تخمين الرقم (1 ضد 1)"
+
+msgid "Your score"
+msgstr "نقاطك"
+
+msgid "Winner +3, loser −1 (min 0)."
+msgstr "الفائز +3، الخاسر −1 (الحد الأدنى 0)."
+
+msgid "Add friend by username"
+msgstr "أضف صديقًا باسم المستخدم"
+
+msgid "Send request"
+msgstr "إرسال طلب"
+
+msgid "Incoming friend requests"
+msgstr "طلبات صداقة واردة"
+
+msgid "Accept"
+msgstr "قبول"
+
+msgid "Reject"
+msgstr "رفض"
+
+msgid "Friends"
+msgstr "الأصدقاء"
+
+msgid "Invite to game"
+msgstr "دعوة للعب"
+
+msgid "No friends yet."
+msgstr "لا أصدقاء بعد."
+
+msgid "Game invites"
+msgstr "دعوات اللعب"
+
+msgid "Incoming"
+msgstr "واردة"
+
+msgid "Active games"
+msgstr "ألعاب نشطة"
+
+msgid "Game"
+msgstr "لعبة"
+
+msgid "Live play"
+msgstr "لعب مباشر"
+
+msgid "You set the secret (1–100). The other player guesses first."
+msgstr "أنت تضع الرقم السري (1–100). يبدأ اللاعب الآخر بالتخمين."
+
+msgid "Wait for the secret, then guess when it is your turn."
+msgstr "انتظر حتى يُعيّن الرقم، ثم خمّن عندما يكون دورك."
+
+msgid "Secret number"
+msgstr "الرقم السري"
+
+msgid "Set secret"
+msgstr "تعيين الرقم"
+
+msgid "Your guess"
+msgstr "تخمينك"
+
+msgid "Send guess"
+msgstr "إرسال التخمين"
+
+msgid "Back to lobby"
+msgstr "العودة للردهة"

@@ -24,5 +24,6 @@ admin.site.site_title = "تكتكها"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('i18n/setlang/', set_language, name='set_language'),
+    path('', include('numbergame.urls')),
     path('', include('quiz.urls')),
 ]

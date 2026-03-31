@@ -57,7 +57,7 @@ Open [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
    - `DEBUG=false`
    - `RENDER_EXTERNAL_HOSTNAME` — يضبطه Render (يُستخدم لـ `ALLOWED_HOSTS` و`CSRF_TRUSTED_ORIGINS`).
 5. **البناء:** `pip install -r requirements.txt && bash build.sh` (ترحيلات، `collectstatic`، تعبئة الأسئلة عند أول تشغيل عبر `seed_questions --skip-if-seeded`).
-6. **التشغيل:** `gunicorn smart_quiz_arena.wsgi:application --bind 0.0.0.0:$PORT`
+6. **التشغيل:** `daphne -b 0.0.0.0 -p $PORT smart_quiz_arena.asgi:application` (مطلوب لـ **WebSocket**؛ عيّن `REDIS_URL` من خدمة Redis على Render أو خارجيًا).
 7. بعد النشر: أنشئ حساب إدارة من **Shell** في لوحة Render:
    `python manage.py createsuperuser`
 
@@ -93,10 +93,37 @@ chmod +x build.sh
 
 Set `SEED_ON_BUILD=0` to skip seeding on deploy if the database is already populated.
 
+## Online number guessing (1v1, WebSockets)
+
+Real-time **1 vs 1** game: one player sets a secret **1–100**, the other guesses first; wrong guesses return **higher** / **lower** and turns alternate until correct.
+
+- **App:** `numbergame/` — `Profile`, `FriendRequest`, `Friendship`, `Game`, `GameInvite`, `Guess`
+- **REST API** (DRF): friends, invites, score, token for mobile — under `/api/numbergame/…`
+- **WebSocket:** `ws/game/<uuid>/` — events: `connect`, `set_secret`, `receive_result`, `switch_turn` (payload fields), `game_over`, `error`
+- **Scoring:** winner **+3**, loser **−1** (score never below 0), stored on `numbergame.Profile`
+- **Channel layer:** **Redis** when `REDIS_URL` is set; otherwise **in-memory** (dev only, single process)
+- **Browser UI:** `/numbergame/` (lobby), `/numbergame/game/<uuid>/` (live play)
+- **Production:** run **Daphne** (ASGI), not Gunicorn alone; configure **Redis** for Channels
+
+### React Native (or any client) — WebSocket
+
+1. Obtain a **DRF token**: `POST /api/numbergame/auth/token/` with JSON `{"username","password"}` → `{ "token": "…" }`.
+2. Connect WebSocket with the **same host** and pass the token in the query string (supported by this project):
+
+   `wss://YOUR_HOST/ws/game/GAME_UUID/?token=YOUR_TOKEN`
+
+   (Browser sessions use cookies; `?token=` overrides for mobile.)
+
+3. Send JSON messages: `{"type":"set_secret","value":42}` or `{"type":"send_guess","value":50}`.
+4. Listen for JSON events from the server (`event` field): `secret_set`, `receive_result`, `game_over`, etc.
+
+See `numbergame/consumers.py`, `numbergame/routing.py`, `numbergame/services.py` for full logic.
+
 ## Project layout
 
-- `smart_quiz_arena/` — Django project settings and root URLs
+- `smart_quiz_arena/` — Django project settings, **ASGI** (`asgi.py`) for Channels
 - `quiz/` — Main app (`models`, `views`, `urls`, `templates`, `management/commands`)
+- `numbergame/` — Realtime guessing (`models`, `api_views`, `consumers`, `routing`, `services`, templates)
 - `static/` — `css/arena.css`, `js/quiz.js`, `img/categories/` — real thumbnails per category slug (`<slug>.jpg` / `.png` / `.webp` …; SVG fallback). See `static/img/categories/README.txt` to swap images (e.g. a makeup meme for `beauty-lifestyle`).
 - `Category.category_image_relpath()` — picks the first matching `static/img/categories/<slug>.*` file for cards.
 - `quiz/data/bilingual_seed.py` — wires the bilingual generators into one bank of 384 questions
@@ -136,6 +163,11 @@ Or edit **`text_ar`** / **`option*_ar`** manually in the Django admin.
 - **Category** — `name`, `name_ar`, slug
 - **Question** — `text`, `text_ar`, four options + `option1_ar`…`option4_ar`, `correct_answer` (1–4), foreign key to category
 - **Score** — user, points for that round (0–10), category, timestamp
+- **numbergame.Profile** — `user` (OneToOne), `score` (integer, for the guessing game)
+- **numbergame.FriendRequest / Friendship** — friendship by username
+- **numbergame.GameInvite** — invite to a match; accepting creates a **Game**
+- **numbergame.Game** — `player1`, `player2`, `secret_setter`, `secret_number`, `current_turn`, `status`, `winner`
+- **numbergame.Guess** — each guess row with `result` (`higher` / `lower` / `correct`)
 
 ## Admin
 

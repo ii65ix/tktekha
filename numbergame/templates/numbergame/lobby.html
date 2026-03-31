@@ -1,0 +1,180 @@
+{% extends "quiz/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Guess 1v1 lobby" %} — {% trans "تكتكها" %}{% endblock %}
+
+{% block content %}
+<section class="py-4 py-md-5">
+  <div class="container" style="max-width: 720px;">
+    <h1 class="h3 mb-2">{% trans "Number guessing (1v1)" %}</h1>
+    <p class="text-secondary small mb-4">
+      {% trans "Your score" %}: <strong class="text-info">{{ profile.score }}</strong>
+      — {% trans "Winner +3, loser −1 (min 0)." %}
+    </p>
+
+    <div class="arena-card p-4 mb-4">
+      <h2 class="h6 text-secondary mb-3">{% trans "Add friend by username" %}</h2>
+      <form id="friend-form" class="row g-2 align-items-end">
+        <div class="col-md-8">
+          <label class="form-label small" for="friend-username">{% trans "Username" %}</label>
+          <input type="text" id="friend-username" class="form-control bg-dark text-white border-secondary" autocomplete="off">
+        </div>
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-arena-primary w-100">{% trans "Send request" %}</button>
+        </div>
+      </form>
+      <p id="friend-msg" class="small mt-2 mb-0 text-secondary"></p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="arena-card p-4 h-100">
+          <h2 class="h6 text-secondary mb-3">{% trans "Incoming friend requests" %}</h2>
+          {% if incoming_fr %}
+            <ul class="list-unstyled small mb-0">
+              {% for fr in incoming_fr %}
+                <li class="mb-2 d-flex justify-content-between align-items-center gap-2 flex-wrap">
+                  <span>{{ fr.from_user.username }}</span>
+                  <span>
+                    <button type="button" class="btn btn-sm btn-success js-fr-accept" data-id="{{ fr.id }}">{% trans "Accept" %}</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary js-fr-reject" data-id="{{ fr.id }}">{% trans "Reject" %}</button>
+                  </span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="small text-secondary mb-0">—</p>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="arena-card p-4 h-100">
+          <h2 class="h6 text-secondary mb-3">{% trans "Friends" %}</h2>
+          {% if friends %}
+            <ul class="list-unstyled small mb-0">
+              {% for f in friends %}
+                <li class="mb-2 d-flex justify-content-between align-items-center gap-2 flex-wrap">
+                  <span>{{ f.username }}</span>
+                  <button type="button" class="btn btn-sm btn-arena-primary js-invite" data-user-id="{{ f.id }}">{% trans "Invite to game" %}</button>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="small text-secondary mb-0">{% trans "No friends yet." %}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="arena-card p-4 mt-4">
+      <h2 class="h6 text-secondary mb-3">{% trans "Game invites" %}</h2>
+      {% if incoming_inv %}
+        <p class="small text-secondary mb-2">{% trans "Incoming" %}</p>
+        <ul class="list-unstyled small">
+          {% for inv in incoming_inv %}
+            <li class="mb-2 d-flex justify-content-between align-items-center gap-2 flex-wrap">
+              <span>{{ inv.from_user.username }}</span>
+              <span>
+                <button type="button" class="btn btn-sm btn-success js-inv-accept" data-id="{{ inv.id }}">{% trans "Accept" %}</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary js-inv-reject" data-id="{{ inv.id }}">{% trans "Reject" %}</button>
+              </span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      {% if active_games %}
+        <p class="small text-secondary mb-2 mt-3">{% trans "Active games" %}</p>
+        <ul class="list-unstyled small mb-0">
+          {% for g in active_games %}
+            <li class="mb-2">
+              <a href="{% url 'numbergame_room' g.id %}">{{ g.player1.username }} vs {{ g.player2.username }} — {{ g.get_status_display }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+  function csrf() {
+    return document.querySelector('meta[name="csrf-token"]')?.getAttribute("content") || "";
+  }
+  async function api(url, opts) {
+    const r = await fetch(url, Object.assign({
+      credentials: "same-origin",
+      headers: { "X-CSRFToken": csrf(), "Content-Type": "application/json" },
+    }, opts));
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(data.detail || r.statusText);
+    return data;
+  }
+  document.getElementById("friend-form")?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const el = document.getElementById("friend-username");
+    const msg = document.getElementById("friend-msg");
+    msg.textContent = "";
+    try {
+      await api("{% url 'ng_friend_request_create' %}", {
+        method: "POST",
+        body: JSON.stringify({ username: el.value.trim() }),
+      });
+      msg.textContent = "OK";
+      el.value = "";
+    } catch (err) {
+      msg.textContent = err.message || String(err);
+    }
+  });
+  document.querySelectorAll(".js-fr-accept").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      try {
+        await api(`/api/numbergame/friends/request/${btn.dataset.id}/accept/`, { method: "POST", body: "{}" });
+        location.reload();
+      } catch (e) { alert(e.message); }
+    });
+  });
+  document.querySelectorAll(".js-fr-reject").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      try {
+        await api(`/api/numbergame/friends/request/${btn.dataset.id}/reject/`, { method: "POST", body: "{}" });
+        location.reload();
+      } catch (e) { alert(e.message); }
+    });
+  });
+  document.querySelectorAll(".js-invite").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      try {
+        await api("{% url 'ng_game_invite_create' %}", {
+          method: "POST",
+          body: JSON.stringify({ to_user_id: parseInt(btn.dataset.userId, 10) }),
+        });
+        alert("Invite sent");
+      } catch (e) { alert(e.message); }
+    });
+  });
+  document.querySelectorAll(".js-inv-accept").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      try {
+        const data = await api(`/api/numbergame/invites/${btn.dataset.id}/accept/`, { method: "POST", body: "{}" });
+        if (data.game_id) {
+          window.location.href = `/numbergame/game/${data.game_id}/`;
+        } else {
+          location.reload();
+        }
+      } catch (e) { alert(e.message); }
+    });
+  });
+  document.querySelectorAll(".js-inv-reject").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      try {
+        await api(`/api/numbergame/invites/${btn.dataset.id}/reject/`, { method: "POST", body: "{}" });
+        location.reload();
+      } catch (e) { alert(e.message); }
+    });
+  });
+})();
+</script>
+{% endblock %}

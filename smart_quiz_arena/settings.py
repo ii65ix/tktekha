@@ -49,13 +49,18 @@ elif not DEBUG and not ALLOWED_HOSTS:
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'channels',
     'quiz',
+    'numbergame',
 ]
 
 MIDDLEWARE = [
@@ -89,6 +94,31 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'smart_quiz_arena.wsgi.application'
+ASGI_APPLICATION = 'smart_quiz_arena.asgi.application'
+
+# Django Channels — Redis in production; in-memory layer if REDIS_URL unset (local dev).
+_redis_url = os.environ.get("REDIS_URL", "").strip()
+if _redis_url:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {"hosts": [_redis_url]},
+        },
+    }
+else:
+    CHANNEL_LAYERS = {
+        "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"},
+    }
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
 
 
 # Database
