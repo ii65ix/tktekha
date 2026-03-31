@@ -26,13 +26,14 @@ class GameAdmin(admin.ModelAdmin):
         "id",
         "player1",
         "player2",
+        "is_bot",
         "status",
         "secret_setter",
         "current_turn",
         "winner",
         "created_at",
     )
-    list_filter = ("status",)
+    list_filter = ("status", "is_bot")
 
 
 @admin.register(GameInvite)

@@ -11,6 +11,7 @@ Server pushes JSON events (same shape for both players):
 
 from __future__ import annotations
 
+import asyncio
 import uuid
 
 from channels.db import database_sync_to_async
@@ -18,7 +19,12 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from django.contrib.auth import get_user_model
 
 from numbergame.models import Game
-from numbergame.services import group_name_for_game, process_guess, process_set_secret
+from numbergame.services import (
+    group_name_for_game,
+    process_guess,
+    process_set_secret,
+    run_bot_turn,
+)
 
 User = get_user_model()
 
@@ -88,6 +94,29 @@ class GameConsumer(AsyncJsonWebsocketConsumer):
 
         await self.broadcast(result)
 
+    async def maybe_run_bot(self, payload: dict) -> None:
+        """After human moves, play one bot turn when the next player is the bot."""
+        if payload.get("event") == "game_over":
+            return
+        bot_id = await self.get_bot_user_id()
+        ev = payload.get("event")
+        if ev == "secret_set":
+            if payload.get("current_turn_user_id") != bot_id:
+                return
+        elif ev == "receive_result":
+            if payload.get("current_turn_user_id") != bot_id:
+                return
+        else:
+            return
+        await asyncio.sleep(0.12)
+        result = await self.run_bot_turn_sync()
+        if not result:
+            return
+        if result.get("event") == "error":
+            await self.send_json(result)
+            return
+        await self.broadcast(result)
+
     async def guess_broadcast(self, event):
         """Handler for group_send type 'guess_broadcast'."""
         await self.send_json(event["payload"])
@@ -113,6 +142,16 @@ class GameConsumer(AsyncJsonWebsocketConsumer):
         user = User.objects.get(pk=user_id)
         return process_guess(game, user, value)
 
+    @database_sync_to_async
+    def run_bot_turn_sync(self) -> dict | None:
+        return run_bot_turn(self.game_uuid)
+
+    @database_sync_to_async
+    def get_bot_user_id(self) -> int:
+        from numbergame.bot import get_bot_user
+
+        return get_bot_user().id
+
     async def broadcast(self, payload: dict) -> None:
         if payload.get("event") == "error":
             await self.send_json(payload)
@@ -121,3 +160,4 @@ class GameConsumer(AsyncJsonWebsocketConsumer):
             self.group,
             {"type": "guess.broadcast", "payload": payload},
         )
+        await self.maybe_run_bot(payload)

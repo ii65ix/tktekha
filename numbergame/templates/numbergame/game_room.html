@@ -6,13 +6,18 @@
 {% block content %}
 <section class="py-4 py-md-5">
   <div class="container" style="max-width: 640px;">
+    {% if is_bot_game %}
+    <span class="pill mb-2 d-inline-block">{% trans "Bot mode" %}</span>
+    {% endif %}
     <p class="small text-secondary mb-2">
       {{ game.player1.username }} vs {{ game.player2.username }} — <span id="status-label">{{ game.get_status_display }}</span>
     </p>
     <div class="arena-card p-4 mb-3">
       <h1 class="h5 mb-3">{% trans "Live play" %}</h1>
       <p class="small text-secondary mb-3">
-        {% if is_secret_setter %}
+        {% if is_bot_game and is_secret_setter %}
+          {% trans "You set the secret (1–100). The bot guesses first." %}
+        {% elif is_secret_setter %}
           {% trans "You set the secret (1–100). The other player guesses first." %}
         {% else %}
           {% trans "Wait for the secret, then guess when it is your turn." %}

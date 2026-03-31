@@ -5,11 +5,17 @@ from numbergame import api_views, web_views
 urlpatterns = [
     path("numbergame/", web_views.lobby, name="numbergame_lobby"),
     path(
+        "numbergame/play-bot/",
+        web_views.play_bot_start,
+        name="numbergame_play_bot",
+    ),
+    path(
         "numbergame/game/<uuid:game_id>/",
         web_views.game_room,
         name="numbergame_room",
     ),
     # --- REST API (session or Token auth) ---
+    path("api/numbergame/bot/start/", api_views.start_bot_game, name="ng_start_bot"),
     path("api/numbergame/auth/token/", api_views.obtain_auth_token, name="ng_obtain_token"),
     path("api/numbergame/me/score/", api_views.my_score, name="ng_my_score"),
     path("api/numbergame/friends/", api_views.friends_list, name="ng_friends_list"),

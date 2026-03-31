@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from numbergame.api_views import _friend_users
+from numbergame.bot import get_bot_user
 from numbergame.models import FriendRequest, Game, GameInvite, Profile
 
 
@@ -49,6 +50,23 @@ def lobby(request):
 
 
 @login_required
+def play_bot_start(request):
+    """POST: create a game vs the server bot and open the room."""
+    if request.method != "POST":
+        return redirect("numbergame_lobby")
+    bot = get_bot_user()
+    game = Game.objects.create(
+        player1=request.user,
+        player2=bot,
+        secret_setter=request.user,
+        is_bot=True,
+        status=Game.Status.WAITING_SECRET,
+        current_turn=None,
+    )
+    return redirect("numbergame_room", game_id=game.id)
+
+
+@login_required
 def game_room(request, game_id):
     game = get_object_or_404(
         Game.objects.select_related("player1", "player2", "secret_setter", "current_turn"),
@@ -66,5 +84,6 @@ def game_room(request, game_id):
             "game": game,
             "ws_url": ws_url,
             "is_secret_setter": request.user.id == game.secret_setter_id,
+            "is_bot_game": game.is_bot,
         },
     )

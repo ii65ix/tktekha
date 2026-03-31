@@ -12,6 +12,21 @@ from django.utils import timezone
 from numbergame.models import Game, Guess, Profile
 
 
+def apply_bot_game_scores(winner, loser) -> None:
+    """Only the human player's Profile changes (+3 / −1); bot account has no real score."""
+    from numbergame.bot import get_bot_user
+
+    bot = get_bot_user()
+    if winner.id == bot.id:
+        lp, _ = Profile.objects.select_for_update().get_or_create(user_id=loser.id)
+        lp.score = max(0, int(lp.score) - 1)
+        lp.save(update_fields=["score"])
+    elif loser.id == bot.id:
+        wp, _ = Profile.objects.select_for_update().get_or_create(user_id=winner.id)
+        wp.score += 3
+        wp.save(update_fields=["score"])
+
+
 def group_name_for_game(game_id) -> str:
     return f"guess_game_{game_id}"
 
@@ -35,13 +50,31 @@ def finish_game(game: Game, winner) -> dict[str, Any]:
     game.save()
     loser = game.other_player(winner)
     if loser:
-        apply_endgame_scores(winner.id, loser.id)
+        if game.is_bot:
+            apply_bot_game_scores(winner, loser)
+        else:
+            apply_endgame_scores(winner.id, loser.id)
     return {
         "event": "game_over",
         "winner_id": winner.id,
         "winner_username": winner.username,
         "loser_id": loser.id if loser else None,
     }
+
+
+@transaction.atomic
+def run_bot_turn(game_id) -> dict[str, Any] | None:
+    """Execute one bot guess when it is the bot's turn (server-side)."""
+    from numbergame.bot import compute_bot_guess, get_bot_user
+
+    game = Game.objects.get(id=game_id)
+    if not game.is_bot:
+        return None
+    bot = get_bot_user()
+    if game.current_turn_id != bot.id or game.status != Game.Status.ACTIVE:
+        return None
+    value = compute_bot_guess(game)
+    return process_guess(game, bot, value)
 
 
 def process_set_secret(game: Game, user, value: int) -> dict[str, Any]:

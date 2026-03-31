@@ -101,6 +101,7 @@ Real-time **1 vs 1** game: one player sets a secret **1–100**, the other guess
 - **REST API** (DRF): friends, invites, score, token for mobile — under `/api/numbergame/…`
 - **WebSocket:** `ws/game/<uuid>/` — events: `connect`, `set_secret`, `receive_result`, `switch_turn` (payload fields), `game_over`, `error`
 - **Scoring:** winner **+3**, loser **−1** (score never below 0), stored on `numbergame.Profile`
+- **Vs bot:** `POST` to `numbergame/play-bot/` (form in lobby) or `POST /api/numbergame/bot/start/` — creates `Game` with `is_bot=True` and user `numbergame_bot`; bot moves are executed on the server (binary search). Only the **human** player's `Profile` gains/loses points.
 - **Channel layer:** **Redis** when `REDIS_URL` is set; otherwise **in-memory** (dev only, single process)
 - **Browser UI:** `/numbergame/` (lobby), `/numbergame/game/<uuid>/` (live play)
 - **Production:** run **Daphne** (ASGI), not Gunicorn alone; configure **Redis** for Channels

@@ -13,6 +13,17 @@
     </p>
 
     <div class="arena-card p-4 mb-4">
+      <h2 class="h6 text-secondary mb-2">{% trans "Play vs bot" %}</h2>
+      <p class="small text-secondary mb-3">
+        {% trans "Practice without a friend. You choose the secret; the bot guesses first (binary search)." %}
+      </p>
+      <form method="post" action="{% url 'numbergame_play_bot' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-arena-primary">{% trans "Start vs bot" %}</button>
+      </form>
+    </div>
+
+    <div class="arena-card p-4 mb-4">
       <h2 class="h6 text-secondary mb-3">{% trans "Add friend by username" %}</h2>
       <form id="friend-form" class="row g-2 align-items-end">
         <div class="col-md-8">

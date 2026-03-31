@@ -166,6 +166,8 @@ class Game(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     finished_at = models.DateTimeField(null=True, blank=True)
+    # Player2 is the built-in bot user; only human profile scores are updated.
+    is_bot = models.BooleanField(default=False, db_index=True)
 
     class Meta:
         ordering = ["-created_at"]

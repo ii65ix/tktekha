@@ -217,3 +217,24 @@ def game_detail(request, game_id):
     if game.status != Game.Status.FINISHED:
         data["secret_number"] = None
     return Response(data)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def start_bot_game(request):
+    """Start a match vs the built-in bot (you set the secret; bot guesses first)."""
+    from numbergame.bot import get_bot_user
+
+    bot = get_bot_user()
+    game = Game.objects.create(
+        player1=request.user,
+        player2=bot,
+        secret_setter=request.user,
+        is_bot=True,
+        status=Game.Status.WAITING_SECRET,
+        current_turn=None,
+    )
+    return Response(
+        {"game_id": str(game.id), "game": GameSerializer(game).data},
+        status=status.HTTP_201_CREATED,
+    )

@@ -393,3 +393,18 @@ msgstr "إرسال التخمين"
 
 msgid "Back to lobby"
 msgstr "العودة للردهة"
+
+msgid "Play vs bot"
+msgstr "العب ضد البوت"
+
+msgid "Practice without a friend. You choose the secret; the bot guesses first (binary search)."
+msgstr "تدرّب بدون صديق. أنت تختار الرقم السري؛ البوت يبدأ التخمين أولًا (بحث ثنائي)."
+
+msgid "Start vs bot"
+msgstr "ابدأ ضد البوت"
+
+msgid "Bot mode"
+msgstr "وضع البوت"
+
+msgid "You set the secret (1–100). The bot guesses first."
+msgstr "أنت تضع الرقم السري (1–100). البوت يبدأ التخمين أولًا."

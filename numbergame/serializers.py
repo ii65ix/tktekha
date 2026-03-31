@@ -80,5 +80,6 @@ class GameSerializer(serializers.ModelSerializer):
             "winner_username",
             "created_at",
             "finished_at",
+            "is_bot",
         )
-        read_only_fields = ("secret_number", "winner", "finished_at")
+        read_only_fields = ("secret_number", "winner", "finished_at", "is_bot")
